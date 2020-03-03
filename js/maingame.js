@@ -1,4 +1,6 @@
 var player = {
   money:1
-}
-document.getElementById('player.money').innerHTMl = player.money
+};
+function updatemoney(){
+  document.getElementById('player.money').innerHTML = 1;
+};
