@@ -2,12 +2,35 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>idk</title>
+    <link rel="stylesheet" type="text/css" href="css/maingame.css">
   </head>
   <body>
     <div class="game">
       Money: <span id="player.money"></span>
-      <button onclick="updatemoney()">press</button>
+      Tickspeed: 1000ms
+      <div class="Dimensional Layers">
+        <button class="dimensionbutton dimlayer1" onclick="buylayer('dim1')">
+          <p id="layername"><b>Point</b></p>
+          1 Money/tick <br>
+          Multipler: x<span id="multiplierdim1">1</span><br>
+          Amount: <br>
+          Cost: <span id="costdim1">1</span><br> money<br>
+        </button>
+        <button class="dimensionbutton dimlayer2" onclick="buylayer('dim2')">
+          <p id="layername"><b>Line</b></p>
+          1 Line/tick <br>
+          Multipler: x<span id="multiplierdim2">1</span><br>
+          Amount: <br>
+          Cost: <span id="costdim2">10</span> money<br>
+        </button>
+        <button class="dimensionbutton dimlayer3" onclick="buylayer('dim3')">
+          <p id="layername"><b>Square</b></p>
+          1 Line/tick <br>
+          Multipler: x<span id="multiplierdim3">1</span><br>
+          Amount: <br>
+          Cost: <span id="costdim3">100</span> money<br>
+        </button>
+      </div>
     </div>
   </body>
   <script type="text/javascript" src="js/maingame.js"></script>

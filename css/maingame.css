@@ -1,0 +1,14 @@
+.dimensionbutton {
+  background-color: #4CAF50;
+  border: 5px solid black;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  width: 10%;
+  height: 20%;
+  vertical-align: middle;
+  display: block;
+  border-radius: 8px;
+  margin: 4px 2px;
+}
