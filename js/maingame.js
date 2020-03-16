@@ -61,8 +61,6 @@ function buylayer(layername){
 };
 
 //update everything that ran on set timed interval
-
-
 setInterval(function update(){
              producemoney();
              updatemoney();
