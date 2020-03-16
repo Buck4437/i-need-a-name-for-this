@@ -1,14 +1,27 @@
-.dimensionbutton {
-  background-color: #4CAF50;
-  border: 5px solid black;
-  color: black;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-  width: 10%;
-  height: 20%;
-  vertical-align: middle;
-  display: block;
-  border-radius: 8px;
-  margin: 4px 2px;
+* {
+  font-family: arial;
+  font-size: 20px
 }
+.layers{
+  width: 50%;
+  border-bottom: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.5%;
+}
+.layers .left{
+  text-align: left;
+  display: inline-block;
+  width: 20%;
+}
+.layers .center{
+  text-align: center;
+  display: inline-block;
+  width: 40%;
+}
+.layers .right{
+  text-align: center;
+  display: inline-block;
+  width: 35%;
+}
+.layers > .dimlayers:hover{
+  background-color: #dddddd;

@@ -5,31 +5,24 @@
     <link rel="stylesheet" type="text/css" href="css/maingame.css">
   </head>
   <body>
-    <div class="game">
-      Money: <span id="player.money"></span>
-      Tickspeed: 1000ms
-      <div class="Dimensional Layers">
-        <button class="dimensionbutton dimlayer1" onclick="buylayer('dim1')">
-          <p id="layername"><b>Point</b></p>
-          1 Money/tick <br>
-          Multipler: x<span id="multiplierdim1">1</span><br>
-          Amount: <br>
-          Cost: <span id="costdim1">1</span><br> money<br>
-        </button>
-        <button class="dimensionbutton dimlayer2" onclick="buylayer('dim2')">
-          <p id="layername"><b>Line</b></p>
-          1 Line/tick <br>
-          Multipler: x<span id="multiplierdim2">1</span><br>
-          Amount: <br>
-          Cost: <span id="costdim2">10</span> money<br>
-        </button>
-        <button class="dimensionbutton dimlayer3" onclick="buylayer('dim3')">
-          <p id="layername"><b>Square</b></p>
-          1 Line/tick <br>
-          Multipler: x<span id="multiplierdim3">1</span><br>
-          Amount: <br>
-          Cost: <span id="costdim3">100</span> money<br>
-        </button>
+    <div id="game">
+      <div id="player.money"></div>
+      <div class="layers">
+        <div class="dimlayers" id="dimlayer1" onclick="buylayer('dimlayer1')">
+          <div class="sub-layernames">
+            <b>Point </b>
+          </div>
+          <div class="left">
+            <span id="dimlayer1multi">x1</span>
+          </div>
+          <div class="center">
+            <span class="layeramounts" id="dimlayer1amount">0</span>
+            <span id="dimlayer1bought">(0)</span>
+          </div>
+          <div class="right">
+            Cost: <span class="layercosts" id="dimlayer1cost">1</span>
+          </div>
+        </div>
       </div>
     </div>
   </body>
