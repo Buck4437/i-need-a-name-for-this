@@ -1,4 +1,5 @@
 var player = {
+    //remembet to update loadfile.js accordingly
     money: new Decimal(1),
     initmoney: new Decimal(1),
     layers:{
@@ -40,8 +41,20 @@ var player = {
   updaterate: 50,
   currentnotation: 0
   };
-var  allnotations = [new ADNotations.StandardNotation(), new ADNotations.ScientificNotation(), new ADNotations.EngineeringNotation(), new ADNotations.LettersNotation()];
+var allnotations = [new ADNotations.StandardNotation(), new ADNotations.ScientificNotation(), new ADNotations.EngineeringNotation(), new ADNotations.LettersNotation()];
 var savetimer = 30
+
+
+//autosave
+function autosave(){
+  savetimer -= player.updaterate / 1000
+  if (savetimer <= 0){
+    localStorage.setItem('player', JSON.stringify(player))
+    savetimer = 30
+  };
+};
+
+
 
 //produces money according to a set interval
 function producemoney(){
@@ -55,23 +68,11 @@ function updatemoney(){
     document.getElementById('player.money').innerHTML = allnotations[player.currentnotation].format(player.money,2,1);
 };
 
-//update cost
-function updatecost(layername){
+//update  cost, multi, bought and amount
+function updatelayer(layername){
   document.getElementById(layername + 'cost').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].cost,2,0) + " Space";
-};
-
-//update multi
-function updatemulti(layername){
   document.getElementById(layername + 'multi').innerHTML = "x" + allnotations[player.currentnotation].format(player.layers[layername].multi,2,1);
-};
-
-//update bought
-function updatebought(layername){
   document.getElementById(layername + 'bought').innerHTML = "(" + allnotations[player.currentnotation].format(player.layers[layername].bought,2,0) + ")";
-};
-
-//update amount
-function updateamount(layername){
   document.getElementById(layername + 'amount').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].amount,2,0);
 };
 
@@ -107,22 +108,6 @@ function updateexpansionstuff(){
   document.getElementById('expansionamount').innerHTML = allnotations[player.currentnotation].format(player.expansions,2,0);
   document.getElementById('expansioncost').innerHTML = allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
 }
-
-//update everything that ran on set timed interval
-setInterval(function update(){
-             producemoney();
-             updatemoney();
-             for(i = 1 ; i <= 3 ; i ++){
-               var layername = "dimlayer" + i;
-               updatecost(layername);
-               updatemulti(layername);
-               updatebought(layername);
-               updateamount(layername);
-             }
-             updateexpansionstuff();
-             visibility();
-           },50);
-
 
 
 
@@ -164,4 +149,17 @@ function changenotations(){
     player.currentnotation = 0;
   };
   document.getElementById('currentnotation').innerHTML = list[player.currentnotation]
-}
+};
+
+//update everything that ran on set timed interval
+setInterval(function update(){
+             producemoney();
+             updatemoney();
+             for(i = 1 ; i <= 3 ; i ++){
+               var layername = "dimlayer" + i;
+               updatelayer(layername);
+             }
+             updateexpansionstuff();
+             visibility();
+             autosave();
+           },50);
