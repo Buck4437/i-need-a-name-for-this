@@ -40,7 +40,7 @@ function updatemoney(){
 
 //update cost
 function updatecost(layername){
-  document.getElementById(layername + 'cost').innerHTML = player.layers[layername].cost.round() + "[PLACEHOLDER]";
+  document.getElementById(layername + 'cost').innerHTML = player.layers[layername].cost.round() + "Space";
 };
 
 //update multi
