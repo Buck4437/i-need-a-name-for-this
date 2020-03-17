@@ -1,27 +1,46 @@
 * {
   font-family: arial;
-  font-size: 20px
+  font-size: 15px;
 }
-.layers{
+body{
+  min-width: 1000px;
+  min-height: 1000px
+}
+.top{
+  font-size: 25px
+}
+.tabbuttons{
+ display: inline;
+ width: 10%;
+}
+.dimlayers, .expansionprestige{
   width: 50%;
   border-bottom: 1px solid black;
   border-collapse: collapse;
   padding: 0.5%;
 }
-.layers .left{
+.tabs .layers .left{
   text-align: left;
   display: inline-block;
   width: 20%;
 }
-.layers .center{
+.tabs .layers .center{
   text-align: center;
   display: inline-block;
   width: 40%;
 }
-.layers .right{
+.tabs .layers .right{
   text-align: center;
   display: inline-block;
   width: 35%;
 }
-.layers > .dimlayers:hover{
+.tabs .layers .dimlayers:hover, .expansionprestige:hover{
   background-color: #dddddd;
+}
+#dimlayer2, #dimlayer3, #expansion{
+  display: none;
+}
+
+.tabs .options{
+  display: none;
+}

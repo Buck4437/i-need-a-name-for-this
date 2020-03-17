@@ -6,25 +6,83 @@
   </head>
   <body>
     <div id="game">
-      <div id="player.money"></div>
-      <div class="layers">
-        <div class="dimlayers" id="dimlayer1" onclick="buylayer('dimlayer1')">
-          <div class="sub-layernames">
-            <b>Point </b>
+      <div class="top">
+        Space: <span class="top" id="player.money">1</span>
+      </div>
+      <br>
+      <div class="tabbuttons">
+        <button class="layers" onclick="opentab('layers')">Layers</button>
+        <button class="options" onclick="opentab('options')">Options</button>
+      </div>
+      <div class="tabs">
+        <div id="layerstab" class="layers tabcontents">
+          <div class="dimlayers" id="dimlayer1" onclick="buylayer('dimlayer1')">
+            <div class="sub-layernames">
+              <b>Point</b>
+            </div>
+            <div class="left">
+              <span id="dimlayer1multi">x1</span>
+            </div>
+            <div class="center">
+              <span class="layeramounts" id="dimlayer1amount">0</span>
+              <span id="dimlayer1bought">(0)</span>
+            </div>
+            <div class="right">
+              Cost: <span class="layercosts" id="dimlayer1cost">1</span>
+            </div>
           </div>
-          <div class="left">
-            <span id="dimlayer1multi">x1</span>
+          <div class="dimlayers" id="dimlayer2" onclick="buylayer('dimlayer2')">
+            <div class="sub-layernames">
+              <b>Line</b>
+            </div>
+            <div class="left">
+              <span id="dimlayer2multi">x1</span>
+            </div>
+            <div class="center">
+              <span class="layeramounts" id="dimlayer2amount">0</span>
+              <span id="dimlayer2bought">(0)</span>
+            </div>
+            <div class="right">
+              Cost: <span class="layercosts" id="dimlayer2cost">400</span>
+            </div>
           </div>
-          <div class="center">
-            <span class="layeramounts" id="dimlayer1amount">0</span>
-            <span id="dimlayer1bought">(0)</span>
+          <div class="dimlayers" id="dimlayer3" onclick="buylayer('dimlayer3')">
+            <div class="sub-layernames">
+              <b>Square</b>
+            </div>
+            <div class="left">
+              <span id="dimlayer3multi">x1</span>
+            </div>
+            <div class="center">
+              <span class="layeramounts" id="dimlayer3amount">0</span>
+              <span id="dimlayer3bought">(0)</span>
+            </div>
+            <div class="right">
+              Cost: <span class="layercosts" id="dimlayer3cost">10M</span>
+            </div>
           </div>
-          <div class="right">
-            Cost: <span class="layercosts" id="dimlayer1cost">1</span>
+          <div class="expansionprestige" id="expansion" onclick="expansionprestige()">
+            <div class="expansionname">
+              <b>Expansion</b> (<span id="expansionamount">0</span>)
+            </div>
+            <div class="left">
+              Reset for a multiplier to all space layers
+            </div>
+            <div class="right">
+              Cost: <span class="expansioncosts" id="expansioncost">5</span>
+            </div>
           </div>
+        </div>
+        <div id="optionstab" class="options tabcontents">
+          <button class="notation" onclick="changenotations()">
+            Current notation:<br>
+            <span id="currentnotation">Standard</span>
+          </button>
         </div>
       </div>
     </div>
   </body>
+  <script type="text/javascript" src="js/break_infinity.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
   <script type="text/javascript" src="js/maingame.js"></script>
 </html>
