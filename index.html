@@ -10,7 +10,7 @@
       <div class="layers">
         <div class="dimlayers" id="dimlayer1" onclick="buylayer('dimlayer1')">
           <div class="sub-layernames">
-            <b>Point </b>
+            <b>Point</b>
           </div>
           <div class="left">
             <span id="dimlayer1multi">x1</span>
@@ -23,8 +23,24 @@
             Cost: <span class="layercosts" id="dimlayer1cost">1</span>
           </div>
         </div>
+        <div class="dimlayers" id="dimlayer2" onclick="buylayer('dimlayer2')">
+          <div class="sub-layernames">
+            <b>Line</b>
+          </div>
+          <div class="left">
+            <span id="dimlayer2multi">x1</span>
+          </div>
+          <div class="center">
+            <span class="layeramounts" id="dimlayer2amount">0</span>
+            <span id="dimlayer2bought">(0)</span>
+          </div>
+          <div class="right">
+            Cost: <span class="layercosts" id="dimlayer2cost">400</span>
+          </div>
+        </div>
       </div>
     </div>
   </body>
   <script type="text/javascript" src="js/maingame.js"></script>
+  <script type="text/javascript" src="js/break_infinity.js"></script>
 </html>

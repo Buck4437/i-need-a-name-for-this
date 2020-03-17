@@ -2,7 +2,7 @@
   font-family: arial;
   font-size: 20px
 }
-.layers{
+.dimlayers{
   width: 50%;
   border-bottom: 1px solid black;
   border-collapse: collapse;
@@ -25,3 +25,7 @@
 }
 .layers > .dimlayers:hover{
   background-color: #dddddd;
+}
+#dimlayer2{
+  visibility: hidden;
+}

@@ -7,7 +7,16 @@ var player = {
         cost:1,
         multi:1,
         basecost:1,
-        costincrease:5,
+        costincrease:4,
+        multiincrease:1.5
+      },
+      dimlayer2:{
+        amount:0,
+        bought:0,
+        cost:400,
+        multi:1,
+        basecost:400,
+        costincrease:15,
         multiincrease:1.5
       }
     }
@@ -16,6 +25,7 @@ var updaterate = 50;
 
 //produces money according to a set interval
 function producemoney(){
+  player.layers["dimlayer1"].amount += player.layers["dimlayer2"].amount * player.layers["dimlayer2"].multi * updaterate / 1000;
   player.money += player.layers["dimlayer1"].amount * player.layers["dimlayer1"].multi * updaterate / 1000;
 };
 
@@ -52,11 +62,13 @@ function buylayer(layername){
     player.layers[layername].bought ++;
     player.layers[layername].cost *= player.layers[layername].costincrease;
     player.layers[layername].multi *= player.layers[layername].multiincrease;
-    //updatemoney handled by update()
-    updatecost(layername);
-    updatemulti(layername);
-    updatebought(layername);
-    updateamount(layername);
+  };
+};
+
+//change visibility of layers etc
+function visibility(){
+  if (player.layers["dimlayer1"].bought >= 5){
+    document.getElementById("dimlayer2").style.visibility = "visible";
   };
 };
 
@@ -64,4 +76,12 @@ function buylayer(layername){
 setInterval(function update(){
              producemoney();
              updatemoney();
+             for(i = 1 ; i <= 2 ; i ++){
+               var layername = "dimlayer" + i;
+               updatecost(layername);
+               updatemulti(layername);
+               updatebought(layername);
+               updateamount(layername);
+             }
+             visibility();
            },50);
