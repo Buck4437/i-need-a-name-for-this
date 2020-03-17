@@ -36,42 +36,43 @@ var player = {
   expansions: new Decimal(0),
   expansioncost: new Decimal(5),
   expansionbasecost: new Decimal(5),
-  expansioncostincrease: new Decimal(2)
+  expansioncostincrease: new Decimal(2),
+  updaterate: 50,
+  currentnotation: 0
   };
-var updaterate = 50;
-const allnotations = [new ADNotations.StandardNotation(), new ADNotations.ScientificNotation(), new ADNotations.EngineeringNotation(), new ADNotations.LettersNotation()]
-var currentnotation = 0
+var  allnotations = [new ADNotations.StandardNotation(), new ADNotations.ScientificNotation(), new ADNotations.EngineeringNotation(), new ADNotations.LettersNotation()];
+var savetimer = 30
 
 //produces money according to a set interval
 function producemoney(){
-  player.layers["dimlayer2"].amount = player.layers["dimlayer2"].amount.plus(player.layers["dimlayer3"].amount.times(player.layers["dimlayer3"].multi.times(updaterate)).div(1000));
-  player.layers["dimlayer1"].amount = player.layers["dimlayer1"].amount.plus(player.layers["dimlayer2"].amount.times(player.layers["dimlayer2"].multi.times(updaterate)).div(1000));
-  player.money = player.money.plus(player.layers["dimlayer1"].amount.times(player.layers["dimlayer1"].multi.times(updaterate)).div(1000));
+  player.layers["dimlayer2"].amount = player.layers["dimlayer2"].amount.plus(player.layers["dimlayer3"].amount.times(player.layers["dimlayer3"].multi.times(player.updaterate)).div(1000));
+  player.layers["dimlayer1"].amount = player.layers["dimlayer1"].amount.plus(player.layers["dimlayer2"].amount.times(player.layers["dimlayer2"].multi.times(player.updaterate)).div(1000));
+  player.money = player.money.plus(player.layers["dimlayer1"].amount.times(player.layers["dimlayer1"].multi.times(player.updaterate)).div(1000));
 };
 
 //update money
 function updatemoney(){
-    document.getElementById('player.money').innerHTML = allnotations[currentnotation].format(player.money,2,1);
+    document.getElementById('player.money').innerHTML = allnotations[player.currentnotation].format(player.money,2,1);
 };
 
 //update cost
 function updatecost(layername){
-  document.getElementById(layername + 'cost').innerHTML = allnotations[currentnotation].format(player.layers[layername].cost,2,0) + " Space";
+  document.getElementById(layername + 'cost').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].cost,2,0) + " Space";
 };
 
 //update multi
 function updatemulti(layername){
-  document.getElementById(layername + 'multi').innerHTML = "x" + allnotations[currentnotation].format(player.layers[layername].multi,2,1);
+  document.getElementById(layername + 'multi').innerHTML = "x" + allnotations[player.currentnotation].format(player.layers[layername].multi,2,1);
 };
 
 //update bought
 function updatebought(layername){
-  document.getElementById(layername + 'bought').innerHTML = "(" + allnotations[currentnotation].format(player.layers[layername].bought,2,0) + ")";
+  document.getElementById(layername + 'bought').innerHTML = "(" + allnotations[player.currentnotation].format(player.layers[layername].bought,2,0) + ")";
 };
 
 //update amount
 function updateamount(layername){
-  document.getElementById(layername + 'amount').innerHTML = allnotations[currentnotation].format(player.layers[layername].amount,2,0);
+  document.getElementById(layername + 'amount').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].amount,2,0);
 };
 
 //buy layers
@@ -103,8 +104,8 @@ function expansionprestige(){
 
 //update stuff of doing an expansion
 function updateexpansionstuff(){
-  document.getElementById('expansionamount').innerHTML = allnotations[currentnotation].format(player.expansions,2,0);
-  document.getElementById('expansioncost').innerHTML = allnotations[currentnotation].format(player.expansioncost,2,0) + " Square";
+  document.getElementById('expansionamount').innerHTML = allnotations[player.currentnotation].format(player.expansions,2,0);
+  document.getElementById('expansioncost').innerHTML = allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
 }
 
 //update everything that ran on set timed interval
@@ -158,9 +159,9 @@ function opentab(tab){
 //change notations
 function changenotations(){
   var list = ['Standard', 'Scientific', 'Engineering', 'Letters']
-  currentnotation ++;
-  if(currentnotation > (list.length - 1) ){
-    currentnotation = 0;
+  player.currentnotation ++;
+  if(player.currentnotation > (list.length - 1) ){
+    player.currentnotation = 0;
   };
-  document.getElementById('currentnotation').innerHTML = list[currentnotation]
+  document.getElementById('currentnotation').innerHTML = list[player.currentnotation]
 }
