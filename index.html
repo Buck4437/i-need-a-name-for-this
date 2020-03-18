@@ -12,59 +12,59 @@
       </div>
       <br>
       <div class="tabbuttons">
-        <button class="layers" onclick="opentab('layers')">Layers</button>
-        <button class="options" onclick="opentab('options')">Options</button>
+        <button class="layers" id="opentab.layers">Layers</button>
+        <button class="options" id="opentab.options">Options</button>
       </div>
       <br><br>
       <div class="tabs">
         <div id="layerstab" class="layers tabcontents">
           <div class="leftpart">
-            <div class="dimlayers" id="dimlayer1" onclick="buylayer('dimlayer1')">
-            <div class="sub-layernames">
-              <b>Point</b>
+            <div class="dimlayers" id="dimlayer1">
+              <div class="sub-layernames">
+                <b>Point</b>
+              </div>
+              <div class="left">
+                <span id="dimlayer1multi">x1</span>
+              </div>
+              <div class="center">
+                <span class="layeramounts" id="dimlayer1amount">0</span>
+                <span id="dimlayer1bought">(0)</span>
+              </div>
+              <div class="right">
+                Cost: <span class="layercosts" id="dimlayer1cost">1</span>
+              </div>
             </div>
-            <div class="left">
-              <span id="dimlayer1multi">x1</span>
+            <div class="dimlayers" id="dimlayer2">
+              <div class="sub-layernames">
+                <b>Line</b>
+              </div>
+              <div class="left">
+                <span id="dimlayer2multi">x1</span>
+              </div>
+              <div class="center">
+                <span class="layeramounts" id="dimlayer2amount">0</span>
+                <span id="dimlayer2bought">(0)</span>
+              </div>
+              <div class="right">
+                Cost: <span class="layercosts" id="dimlayer2cost">400</span>
+              </div>
             </div>
-            <div class="center">
-              <span class="layeramounts" id="dimlayer1amount">0</span>
-              <span id="dimlayer1bought">(0)</span>
+            <div class="dimlayers" id="dimlayer3">
+              <div class="sub-layernames">
+                <b>Square</b>
+              </div>
+              <div class="left">
+                <span id="dimlayer3multi">x1</span>
+              </div>
+              <div class="center">
+                <span class="layeramounts" id="dimlayer3amount">0</span>
+                <span id="dimlayer3bought">(0)</span>
+              </div>
+              <div class="right">
+                Cost: <span class="layercosts" id="dimlayer3cost">10M</span>
+              </div>
             </div>
-            <div class="right">
-              Cost: <span class="layercosts" id="dimlayer1cost">1</span>
-            </div>
-          </div>
-            <div class="dimlayers" id="dimlayer2" onclick="buylayer('dimlayer2')">
-            <div class="sub-layernames">
-              <b>Line</b>
-            </div>
-            <div class="left">
-              <span id="dimlayer2multi">x1</span>
-            </div>
-            <div class="center">
-              <span class="layeramounts" id="dimlayer2amount">0</span>
-              <span id="dimlayer2bought">(0)</span>
-            </div>
-            <div class="right">
-              Cost: <span class="layercosts" id="dimlayer2cost">400</span>
-            </div>
-          </div>
-            <div class="dimlayers" id="dimlayer3" onclick="buylayer('dimlayer3')">
-            <div class="sub-layernames">
-              <b>Square</b>
-            </div>
-            <div class="left">
-              <span id="dimlayer3multi">x1</span>
-            </div>
-            <div class="center">
-              <span class="layeramounts" id="dimlayer3amount">0</span>
-              <span id="dimlayer3bought">(0)</span>
-            </div>
-            <div class="right">
-              Cost: <span class="layercosts" id="dimlayer3cost">10M</span>
-            </div>
-          </div>
-            <div class="expansionprestige" id="expansion" onclick="expansionprestige()">
+            <div class="expansionprestige" id="expansion">
             <div class="expansionname">
               <b>Expansion</b> (<span id="expansionamount">0</span>)
             </div>
@@ -75,23 +75,23 @@
               Cost: <span class="expansioncosts" id="expansioncost">5</span>
             </div>
           </div>
-            <button id='buymax' onclick='buyall()'>Buy all</button>
+            <button id='buymax'>Buy all</button>
           </div>
         </div>
         <div id="optionstab" class="options tabcontents">
-          <button class="optionsbutton" onclick="changenotations()">
+          <button class="optionsbutton" id="optionsbutton.changenotations">
             Current notation:<br>
             <span id="currentnotation">Standard</span>
           </button>
-          <button class="optionsbutton" onclick="changeautosave()">
+          <button class="optionsbutton" id="optionsbutton.changeautosave">
             Autosave:<br>
             <span id="currentautosave">On</span>
           </button>
           <br>
-          <button class="optionsbutton" onclick="manualsave()">
+          <button class="optionsbutton" id="optionsbutton.manualsave">
             Save
           </button>
-          <button class="optionsbutton" onclick="manualload()">
+          <button class="optionsbutton" id="optionsbutton.manualload">
             Load
           </button>
         </div>

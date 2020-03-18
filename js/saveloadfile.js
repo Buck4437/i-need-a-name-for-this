@@ -98,3 +98,9 @@ function manualload(){
 
 
 //export and import uses atob/ btoa
+
+
+//buttons
+document.getElementById('optionsbutton.changeautosave').onclick = function() {changeautosave()};
+document.getElementById('optionsbutton.manualsave').onclick = function() {manualsave()};
+document.getElementById('optionsbutton.manualload').onclick = function() {manualload()};

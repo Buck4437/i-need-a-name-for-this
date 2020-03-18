@@ -176,3 +176,14 @@ setInterval(function update(){
              autosave();
              animationtimer();
            },50);
+
+
+//buttons
+document.getElementById('opentab.layers').onclick = function() {opentab("layers")};
+document.getElementById('opentab.options').onclick = function() {opentab("options")};
+document.getElementById('dimlayer1').onclick = function() {buylayer("dimlayer1")};
+document.getElementById('dimlayer2').onclick = function() {buylayer("dimlayer2")};
+document.getElementById('dimlayer3').onclick = function() {buylayer("dimlayer3")};
+document.getElementById('expansion').onclick = function() {expansionprestige()};
+document.getElementById('optionsbutton.changenotations').onclick = function() {changenotations()};
+document.getElementById('buymax').onclick = function() {buyall()};
