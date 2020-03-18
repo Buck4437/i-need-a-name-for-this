@@ -42,7 +42,6 @@ var player = {
   currentnotation: 0,
   autosave: true
   };
-var savetimer = 30
 
 
 //produces money according to a set interval

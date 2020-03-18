@@ -1,3 +1,4 @@
+var savetimer = 30
 var SaveLoadAnimCountdown = 0;
 var SaveLoadAnimActivated = false
 
