@@ -187,3 +187,4 @@ document.getElementById('dimlayer3').onclick = function() {buylayer("dimlayer3")
 document.getElementById('expansion').onclick = function() {expansionprestige()};
 document.getElementById('optionsbutton.changenotations').onclick = function() {changenotations()};
 document.getElementById('buymax').onclick = function() {buyall()};
+document.getElementById('optionsbutton.changeautosave').onclick = function() {changeautosave()};

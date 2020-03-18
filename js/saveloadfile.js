@@ -77,7 +77,7 @@ function convertsavetodecimal(player){
 
 autoloadfile();
 
-function animationtimer(){
+function SaveLoadAnimationTimer(){
   SaveLoadAnimCountdown -= player.updaterate / 1000;
   if (SaveLoadAnimCountdown < 0){
     SaveLoadAnimCountdown = 0;
@@ -101,7 +101,13 @@ function manualload(){
 //placeholder
 
 
+//run thing on timer
+setInterval(function(){ autosave(),
+                        SaveLoadAnimationTimer()
+                      },50);
+
+
+
 //buttons
-document.getElementById('optionsbutton.changeautosave').onclick = function() {changeautosave()};
 document.getElementById('optionsbutton.manualsave').onclick = function() {manualsave()};
 document.getElementById('optionsbutton.manualload').onclick = function() {manualload()};
