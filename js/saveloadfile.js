@@ -12,14 +12,14 @@ function autosave(){
       SaveLoadAnimActivated = true;
       document.getElementById("gamesavedtext").innerHTML = "Game Saved";
       document.getElementById("gamesavedtext").style.opacity = 1;
-    };
-  };
-};
+    }
+  }
+}
 
 //forced autosave
 function manualsave(){
   savetimer = 0;
-};
+}
 
 
 
@@ -28,8 +28,8 @@ function autoloadfile(){
   if(localStorage.getItem('player')){
     player = JSON.parse(localStorage.getItem('player'))
     convertsavetodecimal(player);
-  };
-};
+  }
+}
 
 function convertsavetodecimal(player){
   player.money = new Decimal(player.money),
