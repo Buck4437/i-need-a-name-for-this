@@ -173,8 +173,6 @@ setInterval(function update(){
              }
              updateexpansionstuff();
              visibility();
-             autosave();
-             animationtimer();
            },50);
 
 
