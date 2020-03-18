@@ -47,32 +47,32 @@ function producemoney(){
   player.layers["dimlayer2"].amount = player.layers["dimlayer2"].amount.plus(player.layers["dimlayer3"].amount.times(player.layers["dimlayer3"].multi.times(updaterate)).div(1000));
   player.layers["dimlayer1"].amount = player.layers["dimlayer1"].amount.plus(player.layers["dimlayer2"].amount.times(player.layers["dimlayer2"].multi.times(updaterate)).div(1000));
   player.money = player.money.plus(player.layers["dimlayer1"].amount.times(player.layers["dimlayer1"].multi.times(updaterate)).div(1000));
-};
+}
 
 //update money
 function updatemoney(){
     document.getElementById('player.money').innerHTML = allnotations[currentnotation].format(player.money,2,1);
-};
+}
 
 //update cost
 function updatecost(layername){
   document.getElementById(layername + 'cost').innerHTML = allnotations[currentnotation].format(player.layers[layername].cost,2,0) + " Space";
-};
+}
 
 //update multi
 function updatemulti(layername){
   document.getElementById(layername + 'multi').innerHTML = "x" + allnotations[currentnotation].format(player.layers[layername].multi,2,1);
-};
+}
 
 //update bought
 function updatebought(layername){
   document.getElementById(layername + 'bought').innerHTML = "(" + allnotations[currentnotation].format(player.layers[layername].bought,2,0) + ")";
-};
+}
 
 //update amount
 function updateamount(layername){
   document.getElementById(layername + 'amount').innerHTML = allnotations[currentnotation].format(player.layers[layername].amount,2,0);
-};
+}
 
 //buy layers
 function buylayer(layername){
@@ -82,8 +82,8 @@ function buylayer(layername){
     player.layers[layername].bought = player.layers[layername].bought.plus(1);
     player.layers[layername].cost = player.layers[layername].cost.times(player.layers[layername].costincrease);
     player.layers[layername].multi = player.layers[layername].multi.times(player.layers[layername].multiincrease);
-    };
-};
+    }
+}
 
 //gives multiplier to all dim layers
 function expansionprestige(){
@@ -97,9 +97,9 @@ function expansionprestige(){
       player.layers[layername].cost = player.layers[layername].basecost;
       player.layers[layername].multi = player.layers[layername].basemulti.times(new Decimal(2).pow(player.expansions));
       player.money = player.initmoney;
-    };
-  };
-};
+    }
+  }
+}
 
 //update stuff of doing an expansion
 function updateexpansionstuff(){
@@ -134,17 +134,17 @@ function visibility(){
   }
   else{
     document.getElementById("dimlayer2").style.display = "none";
-  };
+  }
   if (player.layers["dimlayer2"].bought.gte(5)){
     document.getElementById("dimlayer3").style.display = "block";
   }
   else{
     document.getElementById("dimlayer3").style.display = "none";
-  };
+  }
   if (player.layers["dimlayer3"].bought.gte(5)){
     document.getElementById("expansion").style.display = "block";
-  };
-};
+  }
+}
 
 //tabs changes
 function opentab(tab){
@@ -153,7 +153,7 @@ function opentab(tab){
     tabcontent[i].style.display = "none";
   }
   document.getElementById(tab+"tab").style.display = "inline";
-};
+}
 
 //change notations
 function changenotations(){
@@ -161,6 +161,6 @@ function changenotations(){
   currentnotation ++;
   if(currentnotation > (list.length - 1) ){
     currentnotation = 0;
-  };
+  }
   document.getElementById('currentnotation').innerHTML = list[currentnotation]
 }
