@@ -9,38 +9,56 @@ body{
 .top{
   font-size: 25px
 }
+#gamesavedtext{
+  opacity:0 ;
+  text-align: right;
+}
+
 .tabbuttons{
  display: inline;
  width: 10%;
 }
-.dimlayers, .expansionprestige{
+.leftpart{
   width: 50%;
+}
+.dimlayers, .expansionprestige{
   border-bottom: 1px solid black;
   border-collapse: collapse;
   padding: 0.5%;
 }
-.tabs .layers .left{
+.tabs .layers .leftpart .left{
   text-align: left;
   display: inline-block;
   width: 20%;
 }
-.tabs .layers .center{
+.tabs .layers .leftpart .center{
   text-align: center;
   display: inline-block;
   width: 40%;
 }
-.tabs .layers .right{
+.tabs .layers .leftpart .right{
   text-align: center;
   display: inline-block;
   width: 35%;
 }
-.tabs .layers .dimlayers:hover, .expansionprestige:hover{
+.tabs .layers .leftpart .dimlayers:hover, .expansionprestige:hover{
   background-color: #dddddd;
 }
-#dimlayer2, #dimlayer3, #expansion{
+#dimlayer2, #dimlayer3, #expansion, #buymax{
   display: none;
 }
+#buymax{
+  margin: 5px;
+}
+
 
 .tabs .options{
   display: none;
+}
+
+.optionsbutton{
+  width:15%;
+  height:10%;
+  padding:10px;
+  text-align: center;
 }

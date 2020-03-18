@@ -1,5 +1,30 @@
+var SaveLoadAnimCountdown = 0;
+var SaveLoadAnimActivated = false
+
+//autosave
+function autosave(){
+  savetimer -= player.updaterate / 1000
+  if (savetimer <= 0){
+    if(player.autosave){
+      localStorage.setItem('player', JSON.stringify(player))
+      savetimer = 30;
+      SaveLoadAnimCountdown = 2;
+      SaveLoadAnimActivated = true;
+      document.getElementById("gamesavedtext").innerHTML = "Game Saved";
+      document.getElementById("gamesavedtext").style.opacity = 1;
+    };
+  };
+};
+
+//forced autosave
+function manualsave(){
+  savetimer = 0;
+};
+
+
+
 //autoload
-function loadfile(){
+function autoloadfile(){
   if(localStorage.getItem('player')){
     player = JSON.parse(localStorage.getItem('player'))
     convertsavetodecimal(player);
@@ -45,7 +70,30 @@ function convertsavetodecimal(player){
   player.expansionbasecost = new Decimal (player.expansionbasecost),
   player.expansioncostincrease = new Decimal (player.expansioncostincrease),
   player.updaterate = Number(player.updaterate),
-  player.currentnotation = Number(player.currentnotation)
+  player.currentnotation = Number(player.currentnotation),
+  player.autosave = player.autosave !== "false"
 }
 
-loadfile();
+autoloadfile();
+
+function animationtimer(){
+  SaveLoadAnimCountdown -= player.updaterate / 1000;
+  if (SaveLoadAnimCountdown < 0){
+    SaveLoadAnimCountdown = 0;
+    if(SaveLoadAnimActivated){
+      SaveLoadAnimActivated = false;
+      document.getElementById("gamesavedtext").style.opacity = 0;
+    }
+  }
+}
+
+function manualload(){
+  autoloadfile();
+  SaveLoadAnimCountdown = 2;
+  SaveLoadAnimActivated = true;
+  document.getElementById("gamesavedtext").innerHTML = "Game Loaded";
+  document.getElementById("gamesavedtext").style.opacity = 1;
+}
+
+
+//export and import uses atob/ btoa

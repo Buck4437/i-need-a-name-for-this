@@ -39,21 +39,10 @@ var player = {
   expansionbasecost: new Decimal(5),
   expansioncostincrease: new Decimal(2),
   updaterate: 50,
-  currentnotation: 0
+  currentnotation: 0,
+  autosave: true
   };
-var allnotations = [new ADNotations.StandardNotation(), new ADNotations.ScientificNotation(), new ADNotations.EngineeringNotation(), new ADNotations.LettersNotation()];
 var savetimer = 30
-
-
-//autosave
-function autosave(){
-  savetimer -= player.updaterate / 1000
-  if (savetimer <= 0){
-    localStorage.setItem('player', JSON.stringify(player))
-    savetimer = 30
-  };
-};
-
 
 
 //produces money according to a set interval
@@ -84,7 +73,7 @@ function buylayer(layername){
     player.layers[layername].bought = player.layers[layername].bought.plus(1);
     player.layers[layername].cost = player.layers[layername].cost.times(player.layers[layername].costincrease);
     player.layers[layername].multi = player.layers[layername].multi.times(player.layers[layername].multiincrease);
-    };
+  };
 };
 
 //gives multiplier to all dim layers
@@ -109,26 +98,37 @@ function updateexpansionstuff(){
   document.getElementById('expansioncost').innerHTML = allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
 }
 
+//buyall
+function buyall(){
+  for (i = 1; i <= 3; i++){
+    while (player.money.gte(player.layers["dimlayer" + i].cost)){
+      buylayer("dimlayer" + i);
+    };
+  };
+}
+
+
 
 
 //visual stuffs
 
 //change visibility of layers etc
 function visibility(){
-  if (player.layers["dimlayer1"].bought.gte(5)){
+  if(player.expansions.gte(1)){
     document.getElementById("dimlayer2").style.display = "block";
-  }
-  else{
-    document.getElementById("dimlayer2").style.display = "none";
-  };
-  if (player.layers["dimlayer2"].bought.gte(5)){
     document.getElementById("dimlayer3").style.display = "block";
-  }
-  else{
-    document.getElementById("dimlayer3").style.display = "none";
-  };
-  if (player.layers["dimlayer3"].bought.gte(5)){
     document.getElementById("expansion").style.display = "block";
+    document.getElementById("buymax").style.display = "block";
+  }else{
+    if (player.layers["dimlayer1"].bought.gte(5)){
+      document.getElementById("dimlayer2").style.display = "block";
+    };
+    if (player.layers["dimlayer2"].bought.gte(5)){
+      document.getElementById("dimlayer3").style.display = "block";
+    };
+    if (player.layers["dimlayer3"].bought.gte(5)){
+      document.getElementById("expansion").style.display = "block";
+    };
   };
 };
 
@@ -138,12 +138,14 @@ function opentab(tab){
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
-  document.getElementById(tab+"tab").style.display = "inline";
+  document.getElementById(tab+"tab").style.display = "block";
 };
 
+
 //change notations
+var allnotations = [new ADNotations.StandardNotation(), new ADNotations.ScientificNotation(), new ADNotations.MixedScientificNotation(), new ADNotations.EngineeringNotation(), new ADNotations.MixedEngineeringNotation(), new ADNotations.LettersNotation()];
 function changenotations(){
-  var list = ['Standard', 'Scientific', 'Engineering', 'Letters']
+  var list = ['Standard', 'Scientific', 'Mixed Scientific', 'Engineering',  'Mixed Engineering', 'Letters']
   player.currentnotation ++;
   if(player.currentnotation > (list.length - 1) ){
     player.currentnotation = 0;
@@ -151,15 +153,27 @@ function changenotations(){
   document.getElementById('currentnotation').innerHTML = list[player.currentnotation]
 };
 
+//change Autosave
+function changeautosave(){
+  player.autosave = !player.autosave;
+  if (player.autosave){
+    document.getElementById('currentautosave').innerHTML = "On";
+  }else{
+    document.getElementById('currentautosave').innerHTML = "Off";
+  };
+};
+
+
 //update everything that ran on set timed interval
 setInterval(function update(){
              producemoney();
              updatemoney();
-             for(i = 1 ; i <= 3 ; i ++){
-               var layername = "dimlayer" + i;
-               updatelayer(layername);
+             for(i = 1 ; i <= 3 ; i ++ ){
+                 var layername = "dimlayer" + i;
+                 updatelayer(layername);
              }
              updateexpansionstuff();
              visibility();
              autosave();
+             animationtimer();
            },50);
