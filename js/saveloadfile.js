@@ -28,9 +28,116 @@ function manualsave(){
 function autoloadfile(){
   if(localStorage.getItem('player')){
     player = JSON.parse(localStorage.getItem('player'))
+    savefixer(player);
     convertsavetodecimal(player);
   }
 }
+
+//change anything in save that is undefined into default value
+//kill me pls
+function savefixer(player){
+  if(player.money===undefined){
+    player.money=1
+  }
+  if(player.initmoney===undefined){
+    player.initmoney=1
+  }
+  if(player.layers.dimlayer1.amount===undefined){
+    player.layers.dimlayer1.amount=0
+  }
+  if(player.layers.dimlayer1.bought===undefined){
+    player.layers.dimlayer1.bought=0
+  }
+  if(player.layers.dimlayer1.cost===undefined){
+    player.layers.dimlayer1.cost=1
+  }
+  if(player.layers.dimlayer1.multi===undefined){
+    player.layers.dimlayer1.multi=1
+  }
+  if(player.layers.dimlayer1.basecost===undefined){
+    player.layers.dimlayer1.basecost=1
+  }
+  if(player.layers.dimlayer1.basemulti===undefined){
+    player.layers.dimlayer1.basemulti=1
+  }
+  if(player.layers.dimlayer1.costincrease===undefined){
+    player.layers.dimlayer1.costincrease=4
+  }
+  if(player.layers.dimlayer1.multiincrease===undefined){
+    player.layers.dimlayer1.multiincrease=1.5
+  }
+  if(player.layers.dimlayer2.amount===undefined){
+    player.layers.dimlayer2.amount=0
+  }
+  if(player.layers.dimlayer2.bought===undefined){
+    player.layers.dimlayer2.bought=0
+  }
+  if(player.layers.dimlayer2.cost===undefined){
+    player.layers.dimlayer2.cost=400
+  }
+  if(player.layers.dimlayer2.multi===undefined){
+    player.layers.dimlayer2.multi=1
+  }
+  if(player.layers.dimlayer2.basecost===undefined){
+    player.layers.dimlayer2.basecost=400
+  }
+  if(player.layers.dimlayer2.basemulti===undefined){
+    player.layers.dimlayer2.basemulti=1
+  }
+  if(player.layers.dimlayer2.costincrease===undefined){
+    player.layers.dimlayer2.costincrease=11
+  }
+  if(player.layers.dimlayer2.multiincrease===undefined){
+    player.layers.dimlayer2.multiincrease=1.5
+  }
+  if(player.layers.dimlayer3.amount===undefined){
+    player.layers.dimlayer3.amount=0
+  }
+  if(player.layers.dimlayer3.bought===undefined){
+    player.layers.dimlayer3.bought=0
+  }
+  if(player.layers.dimlayer3.cost===undefined){
+    player.layers.dimlayer3.cost="1e7"
+  }
+  if(player.layers.dimlayer3.multi===undefined){
+    player.layers.dimlayer3.multi=1
+  }
+  if(player.layers.dimlayer3.basecost===undefined){
+    player.layers.dimlayer3.basecost="1e7"
+  }
+  if(player.layers.dimlayer3.basemulti===undefined){
+    player.layers.dimlayer3.basemulti=1
+  }
+  if(player.layers.dimlayer3.costincrease===undefined){
+    player.layers.dimlayer3.costincrease=32
+  }
+  if(player.layers.dimlayer3.multiincrease===undefined){
+    player.layers.dimlayer3.multiincrease=1.5
+  }
+  if(player.expansions===undefined){
+    player.expansions=0
+  }
+  if(player.expansioncost===undefined){
+    player.expansioncost=5
+  }
+  if(player.expansionbasecost===undefined){
+    player.expansionbasecost=5
+  }
+  if(player.expansioncostincrease===undefined){
+    player.expansioncostincrease=2
+  }
+  if(player.updaterate===undefined){
+    player.updaterate=50
+  }
+  if(player.currentnotation===undefined){
+    player.currentnotation=0
+  }
+  if(player.autosave===undefined){
+    player.autosave="true"
+  }
+}
+
+
 
 function convertsavetodecimal(player){
   player.money = new Decimal(player.money),
@@ -74,6 +181,7 @@ function convertsavetodecimal(player){
   player.currentnotation = Number(player.currentnotation),
   player.autosave = player.autosave !== "false"
 }
+
 
 autoloadfile();
 
