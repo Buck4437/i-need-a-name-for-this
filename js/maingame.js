@@ -1,5 +1,5 @@
 var player = {
-    //remembet to update loadfile.js accordingly
+    //remember to update loadfile.js accordingly
     money: new Decimal(1),
     initmoney: new Decimal(1),
     layers:{
@@ -58,11 +58,17 @@ function updatemoney(){
 
 //update  cost, multi, bought and amount
 function updatelayer(layername){
-  document.getElementById(layername + 'cost').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].cost,2,0) + " Space";
+  document.getElementById(layername + 'cost').innerHTML = "Cost: "+ allnotations[player.currentnotation].format(player.layers[layername].cost,2,0) + " Space";
   document.getElementById(layername + 'multi').innerHTML = "x" + allnotations[player.currentnotation].format(player.layers[layername].multi,2,1);
   document.getElementById(layername + 'bought').innerHTML = "(" + allnotations[player.currentnotation].format(player.layers[layername].bought,2,0) + ")";
   document.getElementById(layername + 'amount').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].amount,2,0);
 }
+
+//update the multi due to data change
+function recalculatemulti(layername){
+  player.layers[layername].multi = player.layers[layername].basemulti.times(new Decimal(2).pow(player.expansions)).times(player.layers[layername].multiincrease.pow(player.layers[layername].bought));
+}
+
 
 //buy layers
 function buylayer(layername){
@@ -71,8 +77,7 @@ function buylayer(layername){
     player.layers[layername].amount = player.layers[layername].amount.plus(1);
     player.layers[layername].bought = player.layers[layername].bought.plus(1);
     player.layers[layername].cost = player.layers[layername].cost.times(player.layers[layername].costincrease);
-    player.layers[layername].multi = player.layers[layername].multi.times(player.layers[layername].multiincrease);
-  }
+    }
 }
 
 //gives multiplier to all dim layers
@@ -85,16 +90,17 @@ function expansionprestige(){
       player.layers[layername].amount = new Decimal(0);
       player.layers[layername].bought = new Decimal(0);
       player.layers[layername].cost = player.layers[layername].basecost;
-      player.layers[layername].multi = player.layers[layername].basemulti.times(new Decimal(2).pow(player.expansions));
       player.money = player.initmoney;
     }
+    updateexpansionstuff();
   }
 }
 
 //update stuff of doing an expansion
 function updateexpansionstuff(){
+  player.expansioncost = player.expansions.times(new Decimal(2)).plus(new Decimal(5));
   document.getElementById('expansionamount').innerHTML = allnotations[player.currentnotation].format(player.expansions,2,0);
-  document.getElementById('expansioncost').innerHTML = allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
+  document.getElementById('expansioncost').innerHTML = "Cost: " + allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
 }
 
 //buyall
@@ -110,6 +116,23 @@ function buyall(){
 
 
 //visual stuffs
+
+//change colour of layers
+function canbuylayer(){
+  for (i=1;i<=3;i++){
+    if (player.money.gte(player.layers["dimlayer"+i].cost)){
+      document.getElementById("dimlayer"+i+"cost").style.color = "#0000ff"
+    } else{
+      document.getElementById("dimlayer"+i+"cost").style.color = "#000000"
+    }
+  }
+  if(player.layers["dimlayer3"].amount.gte(player.expansioncost)){
+    document.getElementById("expansioncost").style.color = "#0000ff"
+  } else{
+    document.getElementById("expansioncost").style.color = "#000000"
+  }
+}
+
 
 //change visibility of layers etc
 function visibility(){
@@ -169,9 +192,11 @@ setInterval(function update(){
              updatemoney();
              for(i = 1 ; i <= 3 ; i ++ ){
                  var layername = "dimlayer" + i;
+                 recalculatemulti(layername);
                  updatelayer(layername);
              }
              updateexpansionstuff();
+             canbuylayer();
              visibility();
            },50);
 
