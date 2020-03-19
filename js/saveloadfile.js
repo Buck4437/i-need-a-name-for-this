@@ -33,6 +33,7 @@ function autoloadfile(){
   }
 }
 
+
 //change anything in save that is undefined into default value
 //kill me pls
 function savefixer(player){
