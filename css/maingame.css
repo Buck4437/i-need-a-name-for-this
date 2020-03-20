@@ -21,7 +21,7 @@ body{
 .leftpart{
   width: 50%;
 }
-.dimlayers, .expansionprestige{
+.dimlayers, .expansionprestige, .timeprestige{
   border-bottom: 1px solid black;
   border-collapse: collapse;
   padding: 0.5%;
@@ -41,10 +41,10 @@ body{
   display: inline-block;
   width: 35%;
 }
-.tabs .layers .leftpart .dimlayers:hover, .expansionprestige:hover{
+.tabs .layers .leftpart .dimlayers:hover, .expansionprestige:hover, .timeprestige:hover{
   background-color: #dddddd;
 }
-#dimlayer2, #dimlayer3, #expansion, #buymax{
+#dimlayer2, #dimlayer3, #expansion, #buymax, #timeprestige{
   display: none;
 }
 #buymax{

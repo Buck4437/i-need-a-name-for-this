@@ -136,6 +136,12 @@ function savefixer(player){
   if(player.autosave===undefined){
     player.autosave="true"
   }
+  if(player.timeamount===undefined){
+    player.timeamount=0
+  }
+  if(player.timeprestigeamount===undefined){
+    player.timeprestigeamount=0
+  }
 }
 
 
@@ -178,6 +184,8 @@ function convertsavetodecimal(player){
   player.expansioncost = new Decimal (player.expansioncost),
   player.expansionbasecost = new Decimal (player.expansionbasecost),
   player.expansioncostincrease = new Decimal (player.expansioncostincrease),
+  player.timeamount = new Decimal (player.timeamount),
+  player.timeprestigeamount = new Decimal (player.timeprestigeamount),
   player.updaterate = Number(player.updaterate),
   player.currentnotation = Number(player.currentnotation),
   player.autosave = player.autosave !== "false"

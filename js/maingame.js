@@ -38,6 +38,8 @@ var player = {
   expansioncost: new Decimal(5),
   expansionbasecost: new Decimal(5),
   expansioncostincrease: new Decimal(2),
+  timeamount: new Decimal(0),
+  timeprestigeamount: new Decimal(0),
   updaterate: 50,
   currentnotation: 0,
   autosave: true
@@ -103,6 +105,32 @@ function updateexpansionstuff(){
   document.getElementById('expansioncost').innerHTML = "Cost: " + allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
 }
 
+//gives multiplier to all dim layers
+function timeprestige(){
+  if(player.money.gte(new Decimal(1e27))){
+    TimeGainOnPrestige = new Decimal (1) //placeholder for formula
+    player.timeprestigeamount = player.timeprestigeamount.plus(1);
+    for(i = 1 ; i <= 3 ; i ++){
+      var layername = "dimlayer" + i;
+      player.layers[layername].amount = new Decimal(0);
+      player.layers[layername].bought = new Decimal(0);
+      player.layers[layername].cost = player.layers[layername].basecost;
+      player.money = player.initmoney;
+    }
+    player.expansions = new Decimal(0)
+    player.expansioncost = player.expansionbasecost
+    player.timeamount = player.timeamount.plus(TimeGainOnPrestige)
+    updateexpansionstuff();
+    updatetimestuff()
+  }
+}
+
+function updatetimestuff(){
+  document.getElementById('TimeGainOnPrestige').innerHTML = allnotations[player.currentnotation].format(new Decimal(1),2,0); //placeholder for formula
+  document.getElementById('timeamount').innerHTML = allnotations[player.currentnotation].format(player.timeamount,2,0);
+  document.getElementById('timecost').innerHTML = "Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space";
+};
+
 //buyall
 function buyall(){
   for (i = 1; i <= 3; i++){
@@ -131,12 +159,23 @@ function canbuylayer(){
   } else{
     document.getElementById("expansioncost").style.color = "#000000"
   }
+  if(player.money.gte(new Decimal(1e27))){
+    document.getElementById("timecost").style.color = "#0000ff"
+  } else{
+    document.getElementById("timecost").style.color = "#000000"
+  }
 }
 
 
 //change visibility of layers etc
 function visibility(){
-  if(player.expansions.gte(1)){
+  if(player.timeprestigeamount.gte(1)||player.expansions.gte(5)){
+    document.getElementById("timeprestige").style.display = "block";
+    document.getElementById("dimlayer2").style.display = "block";
+    document.getElementById("dimlayer3").style.display = "block";
+    document.getElementById("expansion").style.display = "block";
+    document.getElementById("buymax").style.display = "block";
+  }else if(player.expansions.gte(1)){
     document.getElementById("dimlayer2").style.display = "block";
     document.getElementById("dimlayer3").style.display = "block";
     document.getElementById("expansion").style.display = "block";
@@ -188,14 +227,18 @@ function changeautosave(){
 
 //update everything that ran on set timed interval
 setInterval(function update(){
+             for(i = 1 ; i <= 3 ; i ++ ){
+               var layername = "dimlayer" + i;
+               recalculatemulti(layername);
+             }
              producemoney();
              updatemoney();
-             for(i = 1 ; i <= 3 ; i ++ ){
-                 var layername = "dimlayer" + i;
-                 recalculatemulti(layername);
-                 updatelayer(layername);
-             }
+             updatetimestuff();
              updateexpansionstuff();
+             for(i = 1 ; i <= 3 ; i ++ ){
+               var layername = "dimlayer" + i;
+               updatelayer(layername);
+             }
              canbuylayer();
              visibility();
            },50);
@@ -208,6 +251,7 @@ document.getElementById('dimlayer1').onclick = function() {buylayer("dimlayer1")
 document.getElementById('dimlayer2').onclick = function() {buylayer("dimlayer2")};
 document.getElementById('dimlayer3').onclick = function() {buylayer("dimlayer3")};
 document.getElementById('expansion').onclick = function() {expansionprestige()};
+document.getElementById('timeprestige').onclick = function() {timeprestige()};
 document.getElementById('optionsbutton.changenotations').onclick = function() {changenotations()};
 document.getElementById('buymax').onclick = function() {buyall()};
 document.getElementById('optionsbutton.changeautosave').onclick = function() {changeautosave()};
