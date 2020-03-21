@@ -40,6 +40,7 @@ var player = {
   expansioncostincrease: new Decimal(2),
   timeamount: new Decimal(0),
   timeprestigeamount: new Decimal(0),
+  autobuymax: false,
   updaterate: 50,
   currentnotation: 0,
   autosave: true
@@ -132,7 +133,7 @@ function updatetimestuff(){
 };
 
 //buyall
-function buyall(){
+function buymax(){
   for (i = 1; i <= 3; i++){
     while (player.money.gte(player.layers["dimlayer" + i].cost)){
       buylayer("dimlayer" + i);
@@ -140,8 +141,22 @@ function buyall(){
   }
 }
 
+//automation
+function toggleautobuymax(){
+  player.autobuymax = !player.autobuymax
+  if (player.autobuymax){
+    document.getElementById('autobuymax').innerHTML = "Auto: On";
+  }else{
+    document.getElementById('autobuymax').innerHTML = "Auto: Off";
+  }
+}
 
 
+function autobuymax(){
+  if(player.autobuymax){
+    buymax()
+  }
+}
 
 //visual stuffs
 
@@ -170,16 +185,17 @@ function canbuylayer(){
 //change visibility of layers etc
 function visibility(){
   if(player.timeprestigeamount.gte(1)||player.expansions.gte(5)){
+    document.getElementById("autobuymax").style.display = "inline";
     document.getElementById("timeprestige").style.display = "block";
     document.getElementById("dimlayer2").style.display = "block";
     document.getElementById("dimlayer3").style.display = "block";
     document.getElementById("expansion").style.display = "block";
-    document.getElementById("buymax").style.display = "block";
+    document.getElementById("buymax").style.display = "inline";
   }else if(player.expansions.gte(1)){
     document.getElementById("dimlayer2").style.display = "block";
     document.getElementById("dimlayer3").style.display = "block";
     document.getElementById("expansion").style.display = "block";
-    document.getElementById("buymax").style.display = "block";
+    document.getElementById("buymax").style.display = "inline";
   }else{
     if (player.layers["dimlayer1"].bought.gte(5)){
       document.getElementById("dimlayer2").style.display = "block";
@@ -227,6 +243,7 @@ function changeautosave(){
 
 //update everything that ran on set timed interval
 setInterval(function update(){
+             autobuymax();
              for(i = 1 ; i <= 3 ; i ++ ){
                var layername = "dimlayer" + i;
                recalculatemulti(layername);
@@ -253,5 +270,6 @@ document.getElementById('dimlayer3').onclick = function() {buylayer("dimlayer3")
 document.getElementById('expansion').onclick = function() {expansionprestige()};
 document.getElementById('timeprestige').onclick = function() {timeprestige()};
 document.getElementById('optionsbutton.changenotations').onclick = function() {changenotations()};
-document.getElementById('buymax').onclick = function() {buyall()};
+document.getElementById('buymax').onclick = function() {buymax()};
+document.getElementById('autobuymax').onclick = function() {toggleautobuymax()};
 document.getElementById('optionsbutton.changeautosave').onclick = function() {changeautosave()};

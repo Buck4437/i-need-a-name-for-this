@@ -44,7 +44,7 @@ body{
 .tabs .layers .leftpart .dimlayers:hover, .expansionprestige:hover, .timeprestige:hover{
   background-color: #dddddd;
 }
-#dimlayer2, #dimlayer3, #expansion, #buymax, #timeprestige{
+#dimlayer2, #dimlayer3, #expansion, #buymax, #autobuymax, #timeprestige{
   display: none;
 }
 #buymax{
