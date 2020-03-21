@@ -130,7 +130,7 @@ function updatetimestuff(){
   document.getElementById('TimeGainOnPrestige').innerHTML = allnotations[player.currentnotation].format(new Decimal(1),2,0); //placeholder for formula
   document.getElementById('timeamount').innerHTML = allnotations[player.currentnotation].format(player.timeamount,2,0);
   document.getElementById('timecost').innerHTML = "Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space";
-};
+}
 
 //buyall
 function buymax(){
