@@ -19,7 +19,12 @@ function autosave(){
 
 //forced autosave
 function manualsave(){
-  savetimer = 0;
+  localStorage.setItem('player', JSON.stringify(player))
+  savetimer = 30;
+  SaveLoadAnimCountdown = 2;
+  SaveLoadAnimActivated = true;
+  document.getElementById("gamesavedtext").innerHTML = "Game Saved";
+  document.getElementById("gamesavedtext").style.opacity = 1;
 }
 
 
@@ -121,9 +126,6 @@ function savefixer(player){
   if(player.expansioncost===undefined){
     player.expansioncost=5
   }
-  if(player.expansionbasecost===undefined){
-    player.expansionbasecost=5
-  }
   if(player.expansioncostincrease===undefined){
     player.expansioncostincrease=2
   }
@@ -134,7 +136,7 @@ function savefixer(player){
     player.currentnotation=0
   }
   if(player.autosave===undefined){
-    player.autosave="true"
+    player.autosave=true
   }
   if(player.timeamount===undefined){
     player.timeamount=0
@@ -143,7 +145,7 @@ function savefixer(player){
     player.timeprestigeamount=0
   }
   if(player.autobuymax===undefined){
-    player.autobuymax="false"
+    player.autobuymax=false
   }
 }
 
@@ -185,14 +187,13 @@ function convertsavetodecimal(player){
 
   player.expansions = new Decimal (player.expansions),
   player.expansioncost = new Decimal (player.expansioncost),
-  player.expansionbasecost = new Decimal (player.expansionbasecost),
   player.expansioncostincrease = new Decimal (player.expansioncostincrease),
   player.timeamount = new Decimal (player.timeamount),
   player.timeprestigeamount = new Decimal (player.timeprestigeamount),
-  player.autobuymax = player.autobuymax == "true",
+  //player.autobuymax (no need conversion)
   player.updaterate = Number(player.updaterate),
-  player.currentnotation = Number(player.currentnotation),
-  player.autosave = player.autosave !== "false"
+  player.currentnotation = Number(player.currentnotation)
+  //player.autosave (no need conversion)
 }
 
 
@@ -221,6 +222,58 @@ function manualload(){
 //export and import uses atob/ btoa
 //placeholder
 
+//hard reset confirmation
+function hardreset(){
+  var HARDRESETCONFIRMATION = prompt("Do you want to completely erase your progress? Please enter \"RESET THIS GAME\" in ALL CAPS to confirm. THIS ACTION CANNOT BE UNDONE.")
+  if (HARDRESETCONFIRMATION == "RESET THIS GAME"){
+    player = {
+        money: new Decimal(1),
+        initmoney: new Decimal(1),
+        layers:{
+          dimlayer1:{
+            amount: new Decimal(0),
+            bought: new Decimal(0),
+            cost: new Decimal(1),
+            multi: new Decimal(1),
+            basecost: new Decimal(1),
+            basemulti: new Decimal(1),
+            costincrease: new Decimal(4),
+            multiincrease: new Decimal(1.5)
+          },
+          dimlayer2:{
+            amount: new Decimal(0),
+            bought: new Decimal(0),
+            cost: new Decimal(400),
+            multi: new Decimal(1),
+            basecost: new Decimal(400),
+            basemulti: new Decimal(1),
+            costincrease: new Decimal(11),
+            multiincrease: new Decimal(1.5)
+          },
+          dimlayer3:{
+            amount: new Decimal(0),
+            bought: new Decimal(0),
+            cost: new Decimal(1e7),
+            multi: new Decimal(1),
+            basecost: new Decimal(1e7),
+            basemulti: new Decimal(1),
+            costincrease: new Decimal(32),
+            multiincrease: new Decimal(1.5)
+          }
+        },
+      expansions: new Decimal(0),
+      expansioncost: new Decimal(5),
+      expansioncostincrease: new Decimal(2),
+      timeamount: new Decimal(0),
+      timeprestigeamount: new Decimal(0),
+      autobuymax: false,
+      updaterate: 50,
+      currentnotation: 0,
+      autosave: true
+    };
+    manualsave()
+  }
+}
 
 //run thing on timer
 setInterval(function(){ autosave(),
@@ -232,3 +285,4 @@ setInterval(function(){ autosave(),
 //buttons
 document.getElementById('optionsbutton.manualsave').onclick = function() {manualsave()};
 document.getElementById('optionsbutton.manualload').onclick = function() {manualload()};
+document.getElementById('optionsbutton.hardreset').onclick = function() {hardreset()};

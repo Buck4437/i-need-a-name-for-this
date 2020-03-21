@@ -62,3 +62,10 @@ body{
   padding:10px;
   text-align: center;
 }
+.footer {
+  font-size: 30px;
+  position: fixed;
+  margin-left: 5px;
+  bottom: 0;
+  margin-bottom: 5px;
+}

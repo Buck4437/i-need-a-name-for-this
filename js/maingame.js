@@ -1,5 +1,5 @@
 var player = {
-    //remember to update loadfile.js accordingly
+    //remember to update saveloadresetfile.js accordingly (savefixer converter and hard reset)
     money: new Decimal(1),
     initmoney: new Decimal(1),
     layers:{
@@ -36,7 +36,6 @@ var player = {
     },
   expansions: new Decimal(0),
   expansioncost: new Decimal(5),
-  expansionbasecost: new Decimal(5),
   expansioncostincrease: new Decimal(2),
   timeamount: new Decimal(0),
   timeprestigeamount: new Decimal(0),
@@ -45,27 +44,15 @@ var player = {
   currentnotation: 0,
   autosave: true
   };
+var TimeGainOnPrestige = new Decimal(1)
 
-
-//produces money according to a set interval
+//produces money,layers according to a set interval, and update it
 function producemoney(){
   player.layers["dimlayer2"].amount = player.layers["dimlayer2"].amount.plus(player.layers["dimlayer3"].amount.times(player.layers["dimlayer3"].multi.times(player.updaterate)).div(1000));
   player.layers["dimlayer1"].amount = player.layers["dimlayer1"].amount.plus(player.layers["dimlayer2"].amount.times(player.layers["dimlayer2"].multi.times(player.updaterate)).div(1000));
   player.money = player.money.plus(player.layers["dimlayer1"].amount.times(player.layers["dimlayer1"].multi.times(player.updaterate)).div(1000));
 }
 
-//update money
-function updatemoney(){
-    document.getElementById('player.money').innerHTML = allnotations[player.currentnotation].format(player.money,2,1);
-}
-
-//update  cost, multi, bought and amount
-function updatelayer(layername){
-  document.getElementById(layername + 'cost').innerHTML = "Cost: "+ allnotations[player.currentnotation].format(player.layers[layername].cost,2,0) + " Space";
-  document.getElementById(layername + 'multi').innerHTML = "x" + allnotations[player.currentnotation].format(player.layers[layername].multi,2,1);
-  document.getElementById(layername + 'bought').innerHTML = "(" + allnotations[player.currentnotation].format(player.layers[layername].bought,2,0) + ")";
-  document.getElementById(layername + 'amount').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].amount,2,0);
-}
 
 //update the multi due to data change
 function recalculatemulti(layername){
@@ -95,21 +82,14 @@ function expansionprestige(){
       player.layers[layername].cost = player.layers[layername].basecost;
       player.money = player.initmoney;
     }
-    updateexpansionstuff();
+    player.expansioncost = player.expansions.times(new Decimal(2)).plus(new Decimal(5));
   }
 }
 
-//update stuff of doing an expansion
-function updateexpansionstuff(){
-  player.expansioncost = player.expansions.times(new Decimal(2)).plus(new Decimal(5));
-  document.getElementById('expansionamount').innerHTML = allnotations[player.currentnotation].format(player.expansions,2,0);
-  document.getElementById('expansioncost').innerHTML = "Cost: " + allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
-}
 
 //gives multiplier to all dim layers
 function timeprestige(){
   if(player.money.gte(new Decimal(1e27))){
-    TimeGainOnPrestige = new Decimal (1) //placeholder for formula
     player.timeprestigeamount = player.timeprestigeamount.plus(1);
     for(i = 1 ; i <= 3 ; i ++){
       var layername = "dimlayer" + i;
@@ -119,17 +99,9 @@ function timeprestige(){
       player.money = player.initmoney;
     }
     player.expansions = new Decimal(0)
-    player.expansioncost = player.expansionbasecost
+    //expansion cost is dynamic
     player.timeamount = player.timeamount.plus(TimeGainOnPrestige)
-    updateexpansionstuff();
-    updatetimestuff()
   }
-}
-
-function updatetimestuff(){
-  document.getElementById('TimeGainOnPrestige').innerHTML = allnotations[player.currentnotation].format(new Decimal(1),2,0); //placeholder for formula
-  document.getElementById('timeamount').innerHTML = allnotations[player.currentnotation].format(player.timeamount,2,0);
-  document.getElementById('timecost').innerHTML = "Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space";
 }
 
 //buyall
@@ -144,13 +116,7 @@ function buymax(){
 //automation
 function toggleautobuymax(){
   player.autobuymax = !player.autobuymax
-  if (player.autobuymax){
-    document.getElementById('autobuymax').innerHTML = "Auto: On";
-  }else{
-    document.getElementById('autobuymax').innerHTML = "Auto: Off";
-  }
 }
-
 
 function autobuymax(){
   if(player.autobuymax){
@@ -158,32 +124,18 @@ function autobuymax(){
   }
 }
 
-//visual stuffs
-
-//change colour of layers
-function canbuylayer(){
-  for (i=1;i<=3;i++){
-    if (player.money.gte(player.layers["dimlayer"+i].cost)){
-      document.getElementById("dimlayer"+i+"cost").style.color = "#0000ff"
-    } else{
-      document.getElementById("dimlayer"+i+"cost").style.color = "#000000"
-    }
-  }
-  if(player.layers["dimlayer3"].amount.gte(player.expansioncost)){
-    document.getElementById("expansioncost").style.color = "#0000ff"
-  } else{
-    document.getElementById("expansioncost").style.color = "#000000"
-  }
-  if(player.money.gte(new Decimal(1e27))){
-    document.getElementById("timecost").style.color = "#0000ff"
-  } else{
-    document.getElementById("timecost").style.color = "#000000"
-  }
-}
 
 
-//change visibility of layers etc
+//change visibility of layers, upgrades etc
 function visibility(){
+  
+  document.getElementById("autobuymax").style.display = "none";
+  document.getElementById("timeprestige").style.display = "none";
+  document.getElementById("dimlayer2").style.display = "none";
+  document.getElementById("dimlayer3").style.display = "none";
+  document.getElementById("expansion").style.display = "none";
+  document.getElementById("buymax").style.display = "none";
+
   if(player.timeprestigeamount.gte(1)||player.expansions.gte(5)){
     document.getElementById("autobuymax").style.display = "inline";
     document.getElementById("timeprestige").style.display = "block";
@@ -219,20 +171,70 @@ function opentab(tab){
 }
 
 
+//options tabs
+
 //change notations
 var allnotations = [new ADNotations.StandardNotation(), new ADNotations.ScientificNotation(), new ADNotations.MixedScientificNotation(), new ADNotations.EngineeringNotation(), new ADNotations.MixedEngineeringNotation(), new ADNotations.LettersNotation()];
 function changenotations(){
-  var list = ['Standard', 'Scientific', 'Mixed Scientific', 'Engineering',  'Mixed Engineering', 'Letters']
   player.currentnotation ++;
   if(player.currentnotation > (list.length - 1) ){
     player.currentnotation = 0;
   }
-  document.getElementById('currentnotation').innerHTML = list[player.currentnotation]
 }
 
 //change Autosave
 function changeautosave(){
   player.autosave = !player.autosave;
+}
+
+//save,load at saveloadfile.js
+
+
+//make some variable dynamic
+function dynamicvariable(){
+  player.expansioncost = player.expansions.times(new Decimal(2)).plus(new Decimal(5));
+  TimeGainOnPrestige = new Decimal (1) //placeholder for formula
+}
+
+
+//visual stuffs
+
+
+//make display in game dynamic
+function dynamicdisplay(){
+  //top display
+  document.getElementById('player.money').innerHTML = allnotations[player.currentnotation].format(player.money,2,1);
+
+  //layers tab
+  //space layers
+  for (i=1;i<=3;i++){
+    layername='dimlayer'+i
+    document.getElementById(layername + 'cost').innerHTML = "Cost: "+ allnotations[player.currentnotation].format(player.layers[layername].cost,2,0) + " Space";
+    document.getElementById(layername + 'multi').innerHTML = "x" + allnotations[player.currentnotation].format(player.layers[layername].multi,2,1);
+    document.getElementById(layername + 'bought').innerHTML = "(" + allnotations[player.currentnotation].format(player.layers[layername].bought,2,0) + ")";
+    document.getElementById(layername + 'amount').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].amount,2,0);
+  }
+  //expansion
+  document.getElementById('expansionamount').innerHTML = allnotations[player.currentnotation].format(player.expansions,2,0);
+  document.getElementById('expansioncost').innerHTML = "Cost: " + allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
+  //time prestige
+
+   /* placeholder for formula => */ document.getElementById('TimeGainOnPrestige').innerHTML = allnotations[player.currentnotation].format(new Decimal(1),2,0);
+
+  document.getElementById('timeamount').innerHTML = allnotations[player.currentnotation].format(player.timeamount,2,0);
+  document.getElementById('timecost').innerHTML = "Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space";
+  //auto buy all
+  if (player.autobuymax){
+    document.getElementById('autobuymax').innerHTML = "Auto: On";
+  }else{
+    document.getElementById('autobuymax').innerHTML = "Auto: Off";
+  }
+
+  //options tab
+  //notation
+  notationlist = ['Standard', 'Scientific', 'Mixed Scientific', 'Engineering',  'Mixed Engineering', 'Letters']
+  document.getElementById('currentnotation').innerHTML = notationlist[player.currentnotation]
+  //autosave
   if (player.autosave){
     document.getElementById('currentautosave').innerHTML = "On";
   }else{
@@ -240,6 +242,27 @@ function changeautosave(){
   }
 }
 
+
+//change colour of layers
+function canbuylayer(){
+  for (i=1;i<=3;i++){
+    if (player.money.gte(player.layers["dimlayer"+i].cost)){
+      document.getElementById("dimlayer"+i+"cost").style.color = "#0000ff"
+    } else{
+      document.getElementById("dimlayer"+i+"cost").style.color = "#000000"
+    }
+  }
+  if(player.layers["dimlayer3"].amount.gte(player.expansioncost)){
+    document.getElementById("expansioncost").style.color = "#0000ff"
+  } else{
+    document.getElementById("expansioncost").style.color = "#000000"
+  }
+  if(player.money.gte(new Decimal(1e27))){
+    document.getElementById("timecost").style.color = "#0000ff"
+  } else{
+    document.getElementById("timecost").style.color = "#000000"
+  }
+}
 
 //update everything that ran on set timed interval
 setInterval(function update(){
@@ -249,15 +272,10 @@ setInterval(function update(){
                recalculatemulti(layername);
              }
              producemoney();
-             updatemoney();
-             updatetimestuff();
-             updateexpansionstuff();
-             for(i = 1 ; i <= 3 ; i ++ ){
-               var layername = "dimlayer" + i;
-               updatelayer(layername);
-             }
              canbuylayer();
              visibility();
+             dynamicvariable()
+             dynamicdisplay();
            },50);
 
 
