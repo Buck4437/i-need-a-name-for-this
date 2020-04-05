@@ -1,3 +1,4 @@
+
 var player = {
     //remember to update saveloadresetfile.js accordingly (savefixer converter and hard reset)
     money: new Decimal(1),
@@ -45,18 +46,15 @@ var player = {
   autosave: true
   };
 var TimeGainOnPrestige = new Decimal(1)
+var notationlist = ['Standard', 'Scientific', 'Mixed Scientific', 'Engineering',  'Mixed Engineering', 'Letters']
+
+
 
 //produces money,layers according to a set interval, and update it
 function producemoney(){
   player.layers["dimlayer2"].amount = player.layers["dimlayer2"].amount.plus(player.layers["dimlayer3"].amount.times(player.layers["dimlayer3"].multi.times(player.updaterate)).div(1000));
   player.layers["dimlayer1"].amount = player.layers["dimlayer1"].amount.plus(player.layers["dimlayer2"].amount.times(player.layers["dimlayer2"].multi.times(player.updaterate)).div(1000));
   player.money = player.money.plus(player.layers["dimlayer1"].amount.times(player.layers["dimlayer1"].multi.times(player.updaterate)).div(1000));
-}
-
-
-//update the multi due to data change
-function recalculatemulti(layername){
-  player.layers[layername].multi = player.layers[layername].basemulti.times(new Decimal(2).pow(player.expansions)).times(player.layers[layername].multiincrease.pow(player.layers[layername].bought));
 }
 
 
@@ -111,6 +109,7 @@ function buymax(){
       buylayer("dimlayer" + i);
     }
   }
+  //subjected to improvement
 }
 
 //automation
@@ -128,46 +127,52 @@ function autobuymax(){
 
 //change visibility of layers, upgrades etc
 function visibility(){
-  
-  document.getElementById("autobuymax").style.display = "none";
-  document.getElementById("timeprestige").style.display = "none";
-  document.getElementById("dimlayer2").style.display = "none";
-  document.getElementById("dimlayer3").style.display = "none";
-  document.getElementById("expansion").style.display = "none";
-  document.getElementById("buymax").style.display = "none";
-
-  if(player.timeprestigeamount.gte(1)||player.expansions.gte(5)){
-    document.getElementById("autobuymax").style.display = "inline";
-    document.getElementById("timeprestige").style.display = "block";
-    document.getElementById("dimlayer2").style.display = "block";
-    document.getElementById("dimlayer3").style.display = "block";
-    document.getElementById("expansion").style.display = "block";
-    document.getElementById("buymax").style.display = "inline";
+  $("#time-prestige-section").css("display", "none");
+  $("#autobuymax").css("display", "none");
+  $("#timeprestige").css("display", "none");
+  $("#dimlayer2").css("display", "none");
+  $("#dimlayer3").css("display", "none");
+  $("#expansion").css("display", "none");
+  $("#buymax").css("display", "none");
+  if(player.timeprestigeamount.gte(1)){
+    $("#time-prestige-section").css("display", "block");
+    $("#autobuymax").css("display", "inline");
+    $("#timeprestige").css("display", "block");
+    $("#dimlayer2").css("display", "block");
+    $("#dimlayer3").css("display", "block");
+    $("#expansion").css("display", "block");
+    $("#buymax").css("display", "inline");
+  }else if(player.expansions.gte(5)){
+    $("#timeprestige").css("display", "block");
+    $("#dimlayer2").css("display", "block");
+    $("#dimlayer3").css("display", "block");
+    $("#expansion").css("display", "block");
+    $("#buymax").css("display", "inline");
   }else if(player.expansions.gte(1)){
-    document.getElementById("dimlayer2").style.display = "block";
-    document.getElementById("dimlayer3").style.display = "block";
-    document.getElementById("expansion").style.display = "block";
-    document.getElementById("buymax").style.display = "inline";
+    $("#dimlayer2").css("display", "block");
+    $("#dimlayer3").css("display", "block");
+    $("#expansion").css("display", "block");
+    $("#buymax").css("display", "inline");
   }else{
     if (player.layers["dimlayer1"].bought.gte(5)){
-      document.getElementById("dimlayer2").style.display = "block";
+      $("#dimlayer2").css("display", "block");
     }
     if (player.layers["dimlayer2"].bought.gte(5)){
-      document.getElementById("dimlayer3").style.display = "block";
+      $("#dimlayer3").css("display", "block");
     }
     if (player.layers["dimlayer3"].bought.gte(5)){
-      document.getElementById("expansion").style.display = "block";
+      $("#expansion").css("display", "block");
     }
   }
 }
 
 //tabs changes
 function opentab(tab){
-  var tabcontent = document.getElementsByClassName("tabcontents");
+  var tabcontent = $(".tabcontents");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
-  document.getElementById(tab+"tab").style.display = "block";
+  $("#"+tab+"tab").css("display", "block");
 }
 
 
@@ -177,7 +182,7 @@ function opentab(tab){
 var allnotations = [new ADNotations.StandardNotation(), new ADNotations.ScientificNotation(), new ADNotations.MixedScientificNotation(), new ADNotations.EngineeringNotation(), new ADNotations.MixedEngineeringNotation(), new ADNotations.LettersNotation()];
 function changenotations(){
   player.currentnotation ++;
-  if(player.currentnotation > (list.length - 1) ){
+  if(player.currentnotation > (notationlist.length - 1) ){
     player.currentnotation = 0;
   }
 }
@@ -192,6 +197,11 @@ function changeautosave(){
 
 //make some variable dynamic
 function dynamicvariable(){
+  for(i = 1 ; i <= 3 ; i ++ ){
+    var layername = "dimlayer" + i;
+    player.layers[layername].multi = player.layers[layername].basemulti.times(new Decimal(2).pow(player.expansions)).times(player.layers[layername].multiincrease.pow(player.layers[layername].bought));
+  }
+  //update the multi due to data change
   player.expansioncost = player.expansions.times(new Decimal(2)).plus(new Decimal(5));
   TimeGainOnPrestige = new Decimal (1) //placeholder for formula
 }
@@ -203,42 +213,42 @@ function dynamicvariable(){
 //make display in game dynamic
 function dynamicdisplay(){
   //top display
-  document.getElementById('player.money').innerHTML = allnotations[player.currentnotation].format(player.money,2,1);
+  //money
+  $('#player\\.money').text(allnotations[player.currentnotation].format(player.money,2,1));
 
   //layers tab
   //space layers
   for (i=1;i<=3;i++){
     layername='dimlayer'+i
-    document.getElementById(layername + 'cost').innerHTML = "Cost: "+ allnotations[player.currentnotation].format(player.layers[layername].cost,2,0) + " Space";
-    document.getElementById(layername + 'multi').innerHTML = "x" + allnotations[player.currentnotation].format(player.layers[layername].multi,2,1);
-    document.getElementById(layername + 'bought').innerHTML = "(" + allnotations[player.currentnotation].format(player.layers[layername].bought,2,0) + ")";
-    document.getElementById(layername + 'amount').innerHTML = allnotations[player.currentnotation].format(player.layers[layername].amount,2,0);
+    $('#' + layername + 'cost').text("Cost: "+ allnotations[player.currentnotation].format(player.layers[layername].cost,2,0) + " Space");
+    $('#' + layername + 'multi').text("x" + allnotations[player.currentnotation].format(player.layers[layername].multi,2,1));
+    $('#' + layername + 'bought').text("(" + allnotations[player.currentnotation].format(player.layers[layername].bought,2,0) + ")");
+    $('#' + layername + 'amount').text(allnotations[player.currentnotation].format(player.layers[layername].amount,2,0));
   }
   //expansion
-  document.getElementById('expansionamount').innerHTML = allnotations[player.currentnotation].format(player.expansions,2,0);
-  document.getElementById('expansioncost').innerHTML = "Cost: " + allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square";
+  $('#expansionamount').text(allnotations[player.currentnotation].format(player.expansions,2,0));
+  $('#expansioncost').text("Cost: " + allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square");
   //time prestige
 
-   /* placeholder for formula => */ document.getElementById('TimeGainOnPrestige').innerHTML = allnotations[player.currentnotation].format(new Decimal(1),2,0);
+   /* placeholder for formula => */ $('TimeGainOnPrestige').text(allnotations[player.currentnotation].format(new Decimal(1),2,0));
 
-  document.getElementById('timeamount').innerHTML = allnotations[player.currentnotation].format(player.timeamount,2,0);
-  document.getElementById('timecost').innerHTML = "Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space";
+  $('#timeamount').text("Time: " + allnotations[player.currentnotation].format(player.timeamount,2,0));
+  $('#timecost').text("Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space");
   //auto buy all
   if (player.autobuymax){
-    document.getElementById('autobuymax').innerHTML = "Auto: On";
+    $('#autobuymax').text("Auto: On");
   }else{
-    document.getElementById('autobuymax').innerHTML = "Auto: Off";
+    $('#autobuymax').text("Auto: Off");
   }
 
   //options tab
   //notation
-  notationlist = ['Standard', 'Scientific', 'Mixed Scientific', 'Engineering',  'Mixed Engineering', 'Letters']
-  document.getElementById('currentnotation').innerHTML = notationlist[player.currentnotation]
+  $('#currentnotation').text(notationlist[player.currentnotation])
   //autosave
   if (player.autosave){
-    document.getElementById('currentautosave').innerHTML = "On";
+    $('#currentautosave').text("On");
   }else{
-    document.getElementById('currentautosave').innerHTML = "Off";
+    $('#currentautosave').text("Off");
   }
 }
 
@@ -247,47 +257,44 @@ function dynamicdisplay(){
 function canbuylayer(){
   for (i=1;i<=3;i++){
     if (player.money.gte(player.layers["dimlayer"+i].cost)){
-      document.getElementById("dimlayer"+i+"cost").style.color = "#0000ff"
+      $("#dimlayer"+i+"cost").css("color", "#0000ff")
     } else{
-      document.getElementById("dimlayer"+i+"cost").style.color = "#000000"
+      $("#dimlayer"+i+"cost").css("color", "#000000")
     }
   }
   if(player.layers["dimlayer3"].amount.gte(player.expansioncost)){
-    document.getElementById("expansioncost").style.color = "#0000ff"
+    $("#expansioncost").css("color", "#0000ff")
   } else{
-    document.getElementById("expansioncost").style.color = "#000000"
+    $("#expansioncost").css("color", "#000000")
   }
   if(player.money.gte(new Decimal(1e27))){
-    document.getElementById("timecost").style.color = "#0000ff"
+    $("#timecost").css("color", "#0000ff")
   } else{
-    document.getElementById("timecost").style.color = "#000000"
+    $("#timecost").css("color", "#000000")
   }
 }
 
 //update everything that ran on set timed interval
 setInterval(function update(){
              autobuymax();
-             for(i = 1 ; i <= 3 ; i ++ ){
-               var layername = "dimlayer" + i;
-               recalculatemulti(layername);
-             }
+             dynamicvariable()
              producemoney();
              canbuylayer();
-             visibility();
              dynamicvariable()
+             visibility();
              dynamicdisplay();
            },50);
 
 
 //buttons
-document.getElementById('opentab.layers').onclick = function() {opentab("layers")};
-document.getElementById('opentab.options').onclick = function() {opentab("options")};
-document.getElementById('dimlayer1').onclick = function() {buylayer("dimlayer1")};
-document.getElementById('dimlayer2').onclick = function() {buylayer("dimlayer2")};
-document.getElementById('dimlayer3').onclick = function() {buylayer("dimlayer3")};
-document.getElementById('expansion').onclick = function() {expansionprestige()};
-document.getElementById('timeprestige').onclick = function() {timeprestige()};
-document.getElementById('optionsbutton.changenotations').onclick = function() {changenotations()};
-document.getElementById('buymax').onclick = function() {buymax()};
-document.getElementById('autobuymax').onclick = function() {toggleautobuymax()};
-document.getElementById('optionsbutton.changeautosave').onclick = function() {changeautosave()};
+$('#opentab\\.layers').click(function() {opentab("layers")});
+$('#opentab\\.options').click(function() {opentab("options")});
+$('#dimlayer1').click(function() {buylayer("dimlayer1")});
+$('#dimlayer2').click(function() {buylayer("dimlayer2")});
+$('#dimlayer3').click(function() {buylayer("dimlayer3")});
+$('#expansion').click(function() {expansionprestige()});
+$('#timeprestige').click(function() {timeprestige()});
+$('#optionsbutton\\.changenotations').click(function() {changenotations()});
+$('#buymax').click(function() {buymax()});
+$('#autobuymax').click(function() {toggleautobuymax()});
+$('#optionsbutton\\.changeautosave').click(function() {changeautosave()});
