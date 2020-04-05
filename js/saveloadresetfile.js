@@ -1,3 +1,4 @@
+
 var savetimer = 30
 var SaveLoadAnimCountdown = 0;
 var SaveLoadAnimActivated = false
@@ -225,8 +226,8 @@ function manualload(){
 
 //hard reset confirmation
 function hardreset(){
-  var HARDRESETCONFIRMATION = prompt("Do you want to completely erase your progress? Please enter \"RESET THIS GAME\" in ALL CAPS to confirm. THIS ACTION CANNOT BE UNDONE.")
-  if (HARDRESETCONFIRMATION == "RESET THIS GAME"){
+  var HARDRESETCONFIRMATION = prompt("Do you want to completely erase your progress? Please enter \"RESET THE GAME\" in ALL CAPS to confirm. THIS ACTION CANNOT BE UNDONE.")
+  if (HARDRESETCONFIRMATION == "RESET THE GAME"){
     player = {
         money: new Decimal(1),
         initmoney: new Decimal(1),
@@ -281,9 +282,39 @@ setInterval(function(){ autosave(),
                         SaveLoadAnimationTimer()
                       },50);
 
+function exportsave(){
+  $("#exportfailsave").css("display", "inline")
+  $("#exportfailsavefield").val(window.btoa(JSON.stringify(player)));
+  var save = $("#exportfailsavefield")
+  save.select();
+ try {
+   document.execCommand('copy');
+   alert("Save copied to clipboard!")
+ } catch (error) {
+     alert('Save exported!');
+   }
+}
+
+function importsave(){
+  var save = prompt("Import your save.")
+  if (save == null || save == "") {
+    alert("Invalid save!")
+  } else {
+    try{
+      player = JSON.parse(window.atob(save))
+      savefixer(player);
+      convertsavetodecimal(player);
+    } catch (error){
+      alert("Invalid save!")
+    }
+  }
+}
+
 
 
 //buttons
-document.getElementById('optionsbutton.manualsave').onclick = function() {manualsave()};
-document.getElementById('optionsbutton.manualload').onclick = function() {manualload()};
-document.getElementById('optionsbutton.hardreset').onclick = function() {hardreset()};
+$('#optionsbutton\\.manualsave').click(function() {manualsave()});
+$('#optionsbutton\\.manualload').click(function() {manualload()});
+$('#optionsbutton\\.exportsave').click(function() {exportsave()});
+$('#optionsbutton\\.importsave').click(function() {importsave()});
+$('#optionsbutton\\.hardreset').click(function() {hardreset()});

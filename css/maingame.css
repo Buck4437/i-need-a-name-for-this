@@ -84,6 +84,11 @@ body{
   padding:10px;
   text-align: center;
 }
+
+#exportfailsave{
+  display: none;
+}
+
 .footer {
   font-size: 30px;
   position: fixed;
