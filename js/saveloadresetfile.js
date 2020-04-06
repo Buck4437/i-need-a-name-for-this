@@ -64,9 +64,6 @@ function savefixer(player){
   if(player.layers.dimlayer1.basecost===undefined){
     player.layers.dimlayer1.basecost=1
   }
-  if(player.layers.dimlayer1.basemulti===undefined){
-    player.layers.dimlayer1.basemulti=1
-  }
   if(player.layers.dimlayer1.costincrease===undefined){
     player.layers.dimlayer1.costincrease=4
   }
@@ -88,9 +85,6 @@ function savefixer(player){
   if(player.layers.dimlayer2.basecost===undefined){
     player.layers.dimlayer2.basecost=400
   }
-  if(player.layers.dimlayer2.basemulti===undefined){
-    player.layers.dimlayer2.basemulti=1
-  }
   if(player.layers.dimlayer2.costincrease===undefined){
     player.layers.dimlayer2.costincrease=11
   }
@@ -111,9 +105,6 @@ function savefixer(player){
   }
   if(player.layers.dimlayer3.basecost===undefined){
     player.layers.dimlayer3.basecost="1e7"
-  }
-  if(player.layers.dimlayer3.basemulti===undefined){
-    player.layers.dimlayer3.basemulti=1
   }
   if(player.layers.dimlayer3.costincrease===undefined){
     player.layers.dimlayer3.costincrease=32
@@ -148,6 +139,9 @@ function savefixer(player){
   if(player.autobuymax===undefined){
     player.autobuymax=false
   }
+  if(player.TimeUpgrades===undefined){
+    player.TimeUpgrades=[null,[null,0,0,0]]
+  }
 }
 
 
@@ -162,7 +156,6 @@ function convertsavetodecimal(player){
   player.layers.dimlayer1.cost = new Decimal(player.layers.dimlayer1.cost),
   player.layers.dimlayer1.multi = new Decimal(player.layers.dimlayer1.multi),
   player.layers.dimlayer1.basecost = new Decimal(player.layers.dimlayer1.basecost),
-  player.layers.dimlayer1.basemulti = new Decimal(player.layers.dimlayer1.basemulti),
   player.layers.dimlayer1.costincrease = new Decimal(player.layers.dimlayer1.costincrease),
   player.layers.dimlayer1.multiincrease = new Decimal(player.layers.dimlayer1.multiincrease),
 
@@ -172,7 +165,6 @@ function convertsavetodecimal(player){
   player.layers.dimlayer2.cost = new Decimal(player.layers.dimlayer2.cost),
   player.layers.dimlayer2.multi = new Decimal(player.layers.dimlayer2.multi),
   player.layers.dimlayer2.basecost = new Decimal(player.layers.dimlayer2.basecost),
-  player.layers.dimlayer2.basemulti = new Decimal(player.layers.dimlayer2.basemulti),
   player.layers.dimlayer2.costincrease = new Decimal(player.layers.dimlayer2.costincrease),
   player.layers.dimlayer2.multiincrease = new Decimal(player.layers.dimlayer2.multiincrease),
 
@@ -182,7 +174,6 @@ function convertsavetodecimal(player){
   player.layers.dimlayer3.cost = new Decimal(player.layers.dimlayer3.cost),
   player.layers.dimlayer3.multi = new Decimal(player.layers.dimlayer3.multi),
   player.layers.dimlayer3.basecost = new Decimal(player.layers.dimlayer3.basecost),
-  player.layers.dimlayer3.basemulti = new Decimal(player.layers.dimlayer3.basemulti),
   player.layers.dimlayer3.costincrease = new Decimal(player.layers.dimlayer3.costincrease),
   player.layers.dimlayer3.multiincrease = new Decimal(player.layers.dimlayer3.multiincrease),
 
@@ -192,6 +183,7 @@ function convertsavetodecimal(player){
   player.timeamount = new Decimal (player.timeamount),
   player.timeprestigeamount = new Decimal (player.timeprestigeamount),
   //player.autobuymax (no need conversion)
+  //player.TimeUpgrades (no need conversion)
   player.updaterate = Number(player.updaterate),
   player.currentnotation = Number(player.currentnotation)
   //player.autosave (no need conversion)
@@ -238,7 +230,6 @@ function hardreset(){
             cost: new Decimal(1),
             multi: new Decimal(1),
             basecost: new Decimal(1),
-            basemulti: new Decimal(1),
             costincrease: new Decimal(4),
             multiincrease: new Decimal(1.5)
           },
@@ -248,7 +239,6 @@ function hardreset(){
             cost: new Decimal(400),
             multi: new Decimal(1),
             basecost: new Decimal(400),
-            basemulti: new Decimal(1),
             costincrease: new Decimal(11),
             multiincrease: new Decimal(1.5)
           },
@@ -258,7 +248,6 @@ function hardreset(){
             cost: new Decimal(1e7),
             multi: new Decimal(1),
             basecost: new Decimal(1e7),
-            basemulti: new Decimal(1),
             costincrease: new Decimal(32),
             multiincrease: new Decimal(1.5)
           }
@@ -269,6 +258,7 @@ function hardreset(){
       timeamount: new Decimal(0),
       timeprestigeamount: new Decimal(0),
       autobuymax: false,
+      TimeUpgrades: [null,[null,0,0,0]],
       updaterate: 50,
       currentnotation: 0,
       autosave: true

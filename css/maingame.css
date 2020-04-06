@@ -22,7 +22,7 @@ body{
 .leftpart{
   width: 50%;
 }
-.dimlayers, .expansionprestige, .timeprestige, .timeupgrades{
+.dimlayers, .expansionprestige, .timeprestige, .TimeUpgrades{
   border-bottom: 1px solid black;
   border-collapse: collapse;
   padding: 0.5%;
@@ -57,18 +57,24 @@ body{
 #timeamount{
   font-size: 22px;
 }
-.tabs .layers .leftpart #time-prestige-section .timeupgrades .left{
+
+/* .TimeUpgradesTier2{
+  display: none;
+} */
+
+
+.tabs .layers .leftpart #time-prestige-section .TimeUpgrades .left{
   text-align: left;
   display: inline-block;
   width: 60%;
 }
 
-.tabs .layers .leftpart #time-prestige-section .timeupgrades .right{
+.tabs .layers .leftpart #time-prestige-section .TimeUpgrades .right{
   text-align: center;
   display: inline-block;
   width: 35%;
 }
-.timeupgrades:hover{
+.TimeUpgrades:hover{
   background-color: #dddddd;
 }
 

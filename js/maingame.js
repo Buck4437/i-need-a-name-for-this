@@ -10,7 +10,6 @@ var player = {
         cost: new Decimal(1),
         multi: new Decimal(1),
         basecost: new Decimal(1),
-        basemulti: new Decimal(1),
         costincrease: new Decimal(4),
         multiincrease: new Decimal(1.5)
       },
@@ -20,7 +19,6 @@ var player = {
         cost: new Decimal(400),
         multi: new Decimal(1),
         basecost: new Decimal(400),
-        basemulti: new Decimal(1),
         costincrease: new Decimal(11),
         multiincrease: new Decimal(1.5)
       },
@@ -30,7 +28,6 @@ var player = {
         cost: new Decimal(1e7),
         multi: new Decimal(1),
         basecost: new Decimal(1e7),
-        basemulti: new Decimal(1),
         costincrease: new Decimal(32),
         multiincrease: new Decimal(1.5)
       }
@@ -41,12 +38,16 @@ var player = {
   timeamount: new Decimal(0),
   timeprestigeamount: new Decimal(0),
   autobuymax: false,
+  TimeUpgrades: [null,
+                [null,0,0,0]
+                ],
   updaterate: 50,
   currentnotation: 0,
   autosave: true
   };
 var TimeGainOnPrestige = new Decimal(1)
 var notationlist = ['Standard', 'Scientific', 'Mixed Scientific', 'Engineering',  'Mixed Engineering', 'Letters']
+var timeupgradescost = [null, [null,1,1,1]]
 
 
 
@@ -123,7 +124,15 @@ function autobuymax(){
   }
 }
 
-
+//buy time upgrades
+function BuyTimeUpgrade(a,b){
+  if(player.TimeUpgrades[a][b]!=1){
+    if(player.timeamount.gte(timeupgradescost[a][b])){
+      player.TimeUpgrades[a][b]=1
+      player.timeamount=player.timeamount.minus(new Decimal(timeupgradescost[a][b]))
+    }
+  }
+}
 
 //change visibility of layers, upgrades etc
 function visibility(){
@@ -175,6 +184,15 @@ function opentab(tab){
   $("#"+tab+"tab").css("display", "block");
 }
 
+function OpenTimeUpgradesTab(tier){
+  var tabcontent = $(".TimeUpgradesTiers")
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  $("#TimeUpgradesTier"+tier).css("display", "block");
+}
+
+
 
 //options tabs
 
@@ -199,9 +217,27 @@ function changeautosave(){
 function dynamicvariable(){
   for(i = 1 ; i <= 3 ; i ++ ){
     var layername = "dimlayer" + i;
-    player.layers[layername].multi = player.layers[layername].basemulti.times(new Decimal(2).pow(player.expansions)).times(player.layers[layername].multiincrease.pow(player.layers[layername].bought));
+    //layer multi increase
+    if(player.TimeUpgrades[1][2]==1){
+      player.layers[layername].multiincrease = new Decimal("1.55")
+    }else {
+      player.layers[layername].multiincrease = new Decimal("1.5")
+    }
+
+    //layer multi
+    //bought multiplier
+    player.layers[layername].multi = player.layers[layername].multiincrease.pow(player.layers[layername].bought)
+    //expansion multiplier
+    if(player.TimeUpgrades[1][3]==1){
+      player.layers[layername].multi = player.layers[layername].multi.times(new Decimal(2.5).pow(player.expansions))
+    }else{
+      player.layers[layername].multi = player.layers[layername].multi.times(new Decimal(2).pow(player.expansions))
+    }
+    //extra multipliers
+    if (player.TimeUpgrades[1][1]==1) {
+      player.layers[layername].multi = player.layers[layername].multi.times(new Decimal(2.5))
+    }
   }
-  //update the multi due to data change
   player.expansioncost = player.expansions.times(new Decimal(2)).plus(new Decimal(5));
   TimeGainOnPrestige = new Decimal (1) //placeholder for formula
 }
@@ -234,27 +270,8 @@ function dynamicdisplay(){
 
   $('#timeamount').text("Time: " + allnotations[player.currentnotation].format(player.timeamount,2,0));
   $('#timecost').text("Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space");
-  //auto buy all
-  if (player.autobuymax){
-    $('#autobuymax').text("Auto: On");
-  }else{
-    $('#autobuymax').text("Auto: Off");
-  }
 
-  //options tab
-  //notation
-  $('#currentnotation').text(notationlist[player.currentnotation])
-  //autosave
-  if (player.autosave){
-    $('#currentautosave').text("On");
-  }else{
-    $('#currentautosave').text("Off");
-  }
-}
-
-
-//change colour of layers
-function canbuylayer(){
+  //colour of layers,expansion and time prestige
   for (i=1;i<=3;i++){
     if (player.money.gte(player.layers["dimlayer"+i].cost)){
       $("#dimlayer"+i+"cost").css("color", "#0000ff")
@@ -272,14 +289,52 @@ function canbuylayer(){
   } else{
     $("#timecost").css("color", "#000000")
   }
+
+  //auto buy all
+  if (player.autobuymax){
+    $('#autobuymax').text("Auto: On");
+  }else{
+    $('#autobuymax').text("Auto: Off");
+  }
+
+  //colour of Time upgrades
+  for (i=1;i<=1;i++){
+    for(j=1;j<=3;j++){
+      $("#TimeUpgrade"+i+j+"Cost").css("display", "inline")
+      if(player.TimeUpgrades[i][j]==1){
+        $("#TimeUpgrade"+i+j+"Cost").css("display", "none")
+        $("#TimeUpgrade"+i+j+"Desc").css("color", "#00dd00")
+      }else{
+        $("#TimeUpgrade"+i+j+"Desc").css("color", "#000000")
+        if (player.timeamount.gte(new Decimal(timeupgradescost[i][j]))){
+          $("#TimeUpgrade"+i+j+"Cost").css("color", "#0000ff")
+        } else{
+          $("#TimeUpgrade"+i+j+"Cost").css("color", "#000000")
+        }
+      }
+    }
+  }
+
+
+
+  //options tab
+  //notation
+  $('#currentnotation').text(notationlist[player.currentnotation])
+  //autosave
+  if (player.autosave){
+    $('#currentautosave').text("On");
+  }else{
+    $('#currentautosave').text("Off");
+  }
 }
+
+
 
 //update everything that ran on set timed interval
 setInterval(function update(){
              autobuymax();
-             dynamicvariable()
+             dynamicvariable();
              producemoney();
-             canbuylayer();
              dynamicvariable()
              visibility();
              dynamicdisplay();
@@ -289,12 +344,20 @@ setInterval(function update(){
 //buttons
 $('#opentab\\.layers').click(function() {opentab("layers")});
 $('#opentab\\.options').click(function() {opentab("options")});
+
 $('#dimlayer1').click(function() {buylayer("dimlayer1")});
 $('#dimlayer2').click(function() {buylayer("dimlayer2")});
 $('#dimlayer3').click(function() {buylayer("dimlayer3")});
 $('#expansion').click(function() {expansionprestige()});
 $('#timeprestige').click(function() {timeprestige()});
-$('#optionsbutton\\.changenotations').click(function() {changenotations()});
 $('#buymax').click(function() {buymax()});
 $('#autobuymax').click(function() {toggleautobuymax()});
+$('#TimeUpgradesTabButton1').click(function () {OpenTimeUpgradesTab("1")});
+$('#TimeUpgradesTabButton2').click(function () {OpenTimeUpgradesTab("2")});
+
+$('#TimeUpgrade11').click(function () {BuyTimeUpgrade(1,1)})
+$('#TimeUpgrade12').click(function () {BuyTimeUpgrade(1,2)})
+$('#TimeUpgrade13').click(function () {BuyTimeUpgrade(1,3)})
+
+$('#optionsbutton\\.changenotations').click(function() {changenotations()});
 $('#optionsbutton\\.changeautosave').click(function() {changeautosave()});
