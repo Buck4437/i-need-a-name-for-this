@@ -297,6 +297,17 @@ function dynamicdisplay(){
     $('#autobuymax').text("Auto: Off");
   }
 
+  //Time upgrade tabs
+  for (i=1;i<=1;i++){
+    if(player.TimeUpgrades[i][1]==1||player.TimeUpgrades[i][2]==1||player.TimeUpgrades[i][3]==1){
+      $("#TimeUpgradesTabButton"+(i+1)).css("display", "inline");
+    }
+    else{
+      $("#TimeUpgradesTabButton"+(i+1)).css("display", "none");
+    }
+  }
+
+
   //colour of Time upgrades
   for (i=1;i<=1;i++){
     for(j=1;j<=3;j++){
