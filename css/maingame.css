@@ -55,7 +55,8 @@ body{
 
 /* time prestige */
 #timeamount{
-  font-size: 22px;
+  font-size: 25px;
+  color: purple
 }
 
 #TimeUpgradesTier2, #TimeUpgradesTier3, #TimeUpgradesTierQOL{
