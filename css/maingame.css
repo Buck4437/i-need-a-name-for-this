@@ -45,12 +45,12 @@ body{
 .tabs .layers .leftpart .dimlayers:hover, .expansionprestige:hover, .timeprestige:hover{
   background-color: #dddddd;
 }
-#dimlayer2, #dimlayer3, #expansion, #buymax, #autobuymax, #timeprestige{
+#dimlayer2, #dimlayer3, #expansion, #buymax, #autobuymax, #autoexpansion, #timeprestige{
   display: none;
 }
 
-#buymax{
-  margin: 5px;
+.automationButtons{
+  margin: 3px;
 }
 
 /* time prestige */
@@ -58,9 +58,9 @@ body{
   font-size: 22px;
 }
 
-/* .TimeUpgradesTier2{
+#TimeUpgradesTier2, #TimeUpgradesTier3, #TimeUpgradesTierQOL{
   display: none;
-} */
+}
 
 
 .tabs .layers .leftpart #time-prestige-section .TimeUpgrades .left{
@@ -80,7 +80,7 @@ body{
 
 
 
-.tabs .options{
+.tabs .milestones, .tabs .options{
   display: none;
 }
 

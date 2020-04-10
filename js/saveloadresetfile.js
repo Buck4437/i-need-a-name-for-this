@@ -139,8 +139,15 @@ function savefixer(player){
   if(player.autobuymax===undefined){
     player.autobuymax=false
   }
+  if(player.autobuymax===undefined){
+    player.autoexpansion=false
+  }
   if(player.TimeUpgrades===undefined){
-    player.TimeUpgrades=[null,[null,0,0,0]]
+    player.TimeUpgrades=[null,
+                  [null,0,0,0],
+                  [null,0,0,0],
+                  [null,0,0,0],
+                  [null,0,0,0]]
   }
 }
 
@@ -183,6 +190,7 @@ function convertsavetodecimal(player){
   player.timeamount = new Decimal (player.timeamount),
   player.timeprestigeamount = new Decimal (player.timeprestigeamount),
   //player.autobuymax (no need conversion)
+  //player.autoexpansion (no need conversion)
   //player.TimeUpgrades (no need conversion)
   player.updaterate = Number(player.updaterate),
   player.currentnotation = Number(player.currentnotation)
@@ -258,7 +266,13 @@ function hardreset(){
       timeamount: new Decimal(0),
       timeprestigeamount: new Decimal(0),
       autobuymax: false,
-      TimeUpgrades: [null,[null,0,0,0]],
+      autoexpansion: false,
+      TimeUpgrades: [null,
+                    [null,0,0,0],
+                    [null,0,0,0],
+                    [null,0,0,0],
+                    [null,0,0,0]
+                    ],
       updaterate: 50,
       currentnotation: 0,
       autosave: true

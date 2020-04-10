@@ -14,6 +14,7 @@
       <br>
       <div class="tabbuttons">
         <button class="layers" id="opentab.layers">Layers</button>
+        <button class="milestones" id="opentab.milestones">Milestones</button>
         <button class="options" id="opentab.options">Options</button>
       </div>
       <br><br>
@@ -82,7 +83,7 @@
             <br>
             <div class="timeprestige" id="timeprestige">
               <div class="timeprestigename">
-                <b>Time</b>
+                <b>Time (<span id="TimePrestigeAmount">0</span>)</b>
               </div>
               <div class="left">
                 Reset to gain <span id="TimeGainOnPrestige">1</span> Time
@@ -94,8 +95,9 @@
               </div>
             </div>
             <div>
-              <button id='buymax'>Buy all</button>
-              <button id='autobuymax'>Auto: Off</buttion>
+              <button id='buymax' class="automationButtons">Buy all</button>
+              <button id='autobuymax' class="automationButtons">Auto: Off</buttion>
+              <button id="autoexpansion" class="automationButtons">Auto Expansion: Off</button>
             </div>
             <!-- Time prestige -->
             <br>
@@ -108,6 +110,8 @@
                 <div class="timeupgradestab">
                   <button class="timeupgradestabbutton" id="TimeUpgradesTabButton1">Tier 1</button>
                   <button class="timeupgradestabbutton" id="TimeUpgradesTabButton2">Tier 2</button>
+                  <button class="timeupgradestabbutton" id="TimeUpgradesTabButton3">Tier 3</button>
+                  <button class="timeupgradestabbutton" id="TimeUpgradesTabButtonQOL">QOL</button>
                 </div>
                 <div id="TimeUpgradesTier1" class="TimeUpgradesTiers">
                   <div class="TimeUpgrades" id="TimeUpgrade11">
@@ -135,9 +139,101 @@
                     </div>
                   </div>
                 </div>
-            </div>
+                <div id="TimeUpgradesTier2" class="TimeUpgradesTiers">
+                  <div class="TimeUpgrades" id="TimeUpgrade21">
+                    <div class="left">
+                      <span id="TimeUpgrade21Desc">
+                        Multipliers to all layers based on number of times you have prestiged
+                        <br>
+                        Currently: <span id="TimeUpgrade21Effect">1.00</span>x
+                      </span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade21Cost">Cost: 1 Time</span>
+                    </div>
+                  </div>
+                  <div class="TimeUpgrades" id="TimeUpgrade22">
+                    <div class="left">
+                      <span id="TimeUpgrade22Desc">????</span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade22Cost">Cost: ? Time</span>
+                    </div>
+                  </div>
+                  <div class="TimeUpgrades" id="TimeUpgrade23">
+                    <div class="left">
+                      <span id="TimeUpgrade23Desc">????</span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade23Cost">Cost: ? Time</span>
+                    </div>
+                  </div>
+                </div>
+                <div id="TimeUpgradesTier3" class="TimeUpgradesTiers">
+                  <div class="TimeUpgrades" id="TimeUpgrade31">
+                    <div class="left">
+                      <span id="TimeUpgrade31Desc">???</span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade31Cost">Cost: ? Time</span>
+                    </div>
+                  </div>
+                  <div class="TimeUpgrades" id="TimeUpgrade32">
+                    <div class="left">
+                      <span id="TimeUpgrade32Desc">???</span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade32Cost">Cost: ? Time</span>
+                    </div>
+                  </div>
+                  <div class="TimeUpgrades" id="TimeUpgrade33">
+                    <div class="left">
+                      <span id="TimeUpgrade33Desc">???</span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade33Cost">Cost: ? Time</span>
+                    </div>
+                  </div>
+                </div>
+                <div id="TimeUpgradesTierQOL" class="TimeUpgradesTiers">
+                  <div class="TimeUpgrades" id="TimeUpgrade41">
+                    <div class="left">
+                      <span id="TimeUpgrade41Desc">Auto Expansion</span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade41Cost">Cost: 3 Time</span>
+                    </div>
+                  </div>
+                  <div class="TimeUpgrades" id="TimeUpgrade42">
+                    <div class="left">
+                      <span id="TimeUpgrade42Desc">???</span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade42Cost">Cost: ? Time</span>
+                    </div>
+                  </div>
+                  <div class="TimeUpgrades" id="TimeUpgrade43">
+                    <div class="left">
+                      <span id="TimeUpgrade43Desc">???</span>
+                    </div>
+                    <div class="right">
+                      <span id="TimeUpgrade43Cost">Cost: ? Time</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+        <div id="milestonestab" class="milestones tabcontents">
+          <div style="font-size: 20px">Milestones: </div>
+          <ol>
+            <li>Buy 1 Point</li>
+            <li>Buy 1 Line</li>
+            <li>Buy 1 Square</li>
+            <li>Perform an Expansion (Reward: Unlock Buy All)</li>
+            <li>Perform a Time prestige (Reward: Unlock Auto Buy All)</li>
+          </ol>
         </div>
         <div id="optionstab" class="options tabcontents">
           <button class="optionsbutton" id="optionsbutton.changenotations">

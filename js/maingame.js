@@ -38,16 +38,20 @@ var player = {
   timeamount: new Decimal(0),
   timeprestigeamount: new Decimal(0),
   autobuymax: false,
+  autoexpansion: false,
   TimeUpgrades: [null,
+                [null,0,0,0],
+                [null,0,0,0],
+                [null,0,0,0],
                 [null,0,0,0]
                 ],
   updaterate: 50,
   currentnotation: 0,
   autosave: true
   };
-var TimeGainOnPrestige = new Decimal(1)
+var timeGainOnPrestige = new Decimal(1)
 var notationlist = ['Standard', 'Scientific', 'Mixed Scientific', 'Engineering',  'Mixed Engineering', 'Letters']
-var timeupgradescost = [null, [null,1,1,1]]
+var timeupgradescost = [null, [null,1,1,1], [null,1,1,1], [null,1,1,1], [null,3,5,5]]
 
 
 
@@ -65,8 +69,8 @@ function buylayer(layername){
     player.money = player.money.minus(player.layers[layername].cost);
     player.layers[layername].amount = player.layers[layername].amount.plus(1);
     player.layers[layername].bought = player.layers[layername].bought.plus(1);
-    player.layers[layername].cost = player.layers[layername].cost.times(player.layers[layername].costincrease);
-    }
+  }
+  dynamicvariable()
 }
 
 //gives multiplier to all dim layers
@@ -74,24 +78,24 @@ function expansionprestige(){
   if(player.layers["dimlayer3"].amount.gte(player.expansioncost)){
     player.expansions = player.expansions.plus(1);
     player.expansioncost = player.expansioncost.plus(player.expansioncostincrease);
-    for(i = 1 ; i <= 3 ; i ++){
-      var layername = "dimlayer" + i;
+    for(count = 1 ; count <= 3 ; count ++){
+      var layername = "dimlayer" + count;
       player.layers[layername].amount = new Decimal(0);
       player.layers[layername].bought = new Decimal(0);
       player.layers[layername].cost = player.layers[layername].basecost;
       player.money = player.initmoney;
     }
-    player.expansioncost = player.expansions.times(new Decimal(2)).plus(new Decimal(5));
+    dynamicvariable()
   }
 }
 
 
-//gives multiplier to all dim layers
+//gain time
 function timeprestige(){
   if(player.money.gte(new Decimal(1e27))){
     player.timeprestigeamount = player.timeprestigeamount.plus(1);
-    for(i = 1 ; i <= 3 ; i ++){
-      var layername = "dimlayer" + i;
+    for(w = 1 ; w<= 3 ; w ++){
+      var layername = "dimlayer" + w;
       player.layers[layername].amount = new Decimal(0);
       player.layers[layername].bought = new Decimal(0);
       player.layers[layername].cost = player.layers[layername].basecost;
@@ -99,15 +103,15 @@ function timeprestige(){
     }
     player.expansions = new Decimal(0)
     //expansion cost is dynamic
-    player.timeamount = player.timeamount.plus(TimeGainOnPrestige)
+    player.timeamount = player.timeamount.plus(timeGainOnPrestige)
   }
 }
 
 //buyall
 function buymax(){
-  for (i = 1; i <= 3; i++){
-    while (player.money.gte(player.layers["dimlayer" + i].cost)){
-      buylayer("dimlayer" + i);
+  for (ce = 1; ce <= 3; ce++){
+    while (player.money.gte(player.layers["dimlayer" + ce].cost)){
+      buylayer("dimlayer" + ce);
     }
   }
   //subjected to improvement
@@ -121,6 +125,16 @@ function toggleautobuymax(){
 function autobuymax(){
   if(player.autobuymax){
     buymax()
+  }
+}
+
+function toggleautoexpansion(){
+  player.autoexpansion = !player.autoexpansion
+}
+
+function autoexpansion(){
+  if(player.autoexpansion){
+    expansionprestige()
   }
 }
 
@@ -138,6 +152,7 @@ function BuyTimeUpgrade(a,b){
 function visibility(){
   $("#time-prestige-section").css("display", "none");
   $("#autobuymax").css("display", "none");
+  $("#autoexpansion").css("display", "none");
   $("#timeprestige").css("display", "none");
   $("#dimlayer2").css("display", "none");
   $("#dimlayer3").css("display", "none");
@@ -172,6 +187,9 @@ function visibility(){
     if (player.layers["dimlayer3"].bought.gte(5)){
       $("#expansion").css("display", "block");
     }
+  }
+  if(player.TimeUpgrades[4][1]==1){
+    $("#autoexpansion").css("display", "inline");
   }
 }
 
@@ -215,31 +233,43 @@ function changeautosave(){
 
 //make some variable dynamic
 function dynamicvariable(){
-  for(i = 1 ; i <= 3 ; i ++ ){
-    var layername = "dimlayer" + i;
+  for(jc = 1 ; jc <= 3 ; jc ++ ){
+    var layer = "dimlayer" + jc;
     //layer multi increase
     if(player.TimeUpgrades[1][2]==1){
-      player.layers[layername].multiincrease = new Decimal("1.55")
+      player.layers[layer].multiincrease = new Decimal("1.55")
     }else {
-      player.layers[layername].multiincrease = new Decimal("1.5")
+      player.layers[layer].multiincrease = new Decimal("1.5")
     }
 
     //layer multi
     //bought multiplier
-    player.layers[layername].multi = player.layers[layername].multiincrease.pow(player.layers[layername].bought)
+    player.layers[layer].multi = player.layers[layer].multiincrease.pow(player.layers[layer].bought)
     //expansion multiplier
     if(player.TimeUpgrades[1][3]==1){
-      player.layers[layername].multi = player.layers[layername].multi.times(new Decimal(2.5).pow(player.expansions))
+      player.layers[layer].multi = player.layers[layer].multi.times(new Decimal(2.5).pow(player.expansions))
     }else{
-      player.layers[layername].multi = player.layers[layername].multi.times(new Decimal(2).pow(player.expansions))
+      player.layers[layer].multi = player.layers[layer].multi.times(new Decimal(2).pow(player.expansions))
     }
     //extra multipliers
     if (player.TimeUpgrades[1][1]==1) {
-      player.layers[layername].multi = player.layers[layername].multi.times(new Decimal(2.5))
+      player.layers[layer].multi = player.layers[layer].multi.times(new Decimal(2.5))
     }
+    if (player.TimeUpgrades[2][1]==1) {
+      player.layers[layer].multi = player.layers[layer].multi.times(new Decimal(5).pow(Decimal.log10(player.timeprestigeamount)))
+    }
+
+    //layer cost
+    //scaling cost
+    player.layers[layer].cost = player.layers[layer].basecost.times(player.layers[layer].costincrease.pow(player.layers[layer].bought));
+    //ramping
+    var ramping_starts = [null,50,27,16] //layer 1: 50, 2: 27, 3:16
+    var ramp_coeff = Decimal.max(0,player.layers[layer].bought.minus(ramping_starts[jc]-1))
+    var ramp_coeff2 = ramp_coeff.times(ramp_coeff.plus(1)).div(2)
+    player.layers[layer].cost = player.layers[layer].cost.times(Decimal.max(1,Decimal.pow(1.5, ramp_coeff2)))
   }
   player.expansioncost = player.expansions.times(new Decimal(2)).plus(new Decimal(5));
-  TimeGainOnPrestige = new Decimal (1) //placeholder for formula
+  timeGainOnPrestige = Decimal.max(1, Decimal.pow(10, Decimal.minus(Decimal.log10(player.money),27).div(27)))
 }
 
 
@@ -265,11 +295,10 @@ function dynamicdisplay(){
   $('#expansionamount').text(allnotations[player.currentnotation].format(player.expansions,2,0));
   $('#expansioncost').text("Cost: " + allnotations[player.currentnotation].format(player.expansioncost,2,0) + " Square");
   //time prestige
-
-   /* placeholder for formula => */ $('TimeGainOnPrestige').text(allnotations[player.currentnotation].format(new Decimal(1),2,0));
-
-  $('#timeamount').text("Time: " + allnotations[player.currentnotation].format(player.timeamount,2,0));
+  $('#TimePrestigeAmount').text(allnotations[player.currentnotation].format(player.timeprestigeamount,2,0));
+  $('#TimeGainOnPrestige').text(allnotations[player.currentnotation].format(timeGainOnPrestige,2,0));
   $('#timecost').text("Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space");
+  $('#timeamount').text("Time: " + allnotations[player.currentnotation].format(player.timeamount,2,0));
 
   //colour of layers,expansion and time prestige
   for (i=1;i<=3;i++){
@@ -296,9 +325,15 @@ function dynamicdisplay(){
   }else{
     $('#autobuymax').text("Auto: Off");
   }
+  //auto expansion
+  if (player.autoexpansion){
+    $('#autoexpansion').text("Auto Expansion: On");
+  }else{
+    $('#autoexpansion').text("Auto Expansion: Off");
+  }
 
   //Time upgrade tabs
-  for (i=1;i<=1;i++){
+  for (i=1;i<=2;i++){
     if(player.TimeUpgrades[i][1]==1||player.TimeUpgrades[i][2]==1||player.TimeUpgrades[i][3]==1){
       $("#TimeUpgradesTabButton"+(i+1)).css("display", "inline");
     }
@@ -307,9 +342,13 @@ function dynamicdisplay(){
     }
   }
 
+  //Time Upgrades effect
+  $("#TimeUpgrade21Effect").text(allnotations[player.currentnotation].format(new Decimal(5).pow(Decimal.log10(player.timeprestigeamount)),2,2))
+
 
   //colour of Time upgrades
-  for (i=1;i<=1;i++){
+  //QOL upgrades are considered as 4
+  for (i=1;i<=4;i++){
     for(j=1;j<=3;j++){
       $("#TimeUpgrade"+i+j+"Cost").css("display", "inline")
       if(player.TimeUpgrades[i][j]==1){
@@ -347,6 +386,8 @@ setInterval(function update(){
              dynamicvariable();
              producemoney();
              dynamicvariable()
+             autoexpansion();
+             dynamicvariable()
              visibility();
              dynamicdisplay();
            },50);
@@ -354,6 +395,7 @@ setInterval(function update(){
 
 //buttons
 $('#opentab\\.layers').click(function() {opentab("layers")});
+$('#opentab\\.milestones').click(function() {opentab("milestones")});
 $('#opentab\\.options').click(function() {opentab("options")});
 
 $('#dimlayer1').click(function() {buylayer("dimlayer1")});
@@ -363,12 +405,25 @@ $('#expansion').click(function() {expansionprestige()});
 $('#timeprestige').click(function() {timeprestige()});
 $('#buymax').click(function() {buymax()});
 $('#autobuymax').click(function() {toggleautobuymax()});
+$('#autoexpansion').click(function() {toggleautoexpansion()});
+
 $('#TimeUpgradesTabButton1').click(function () {OpenTimeUpgradesTab("1")});
 $('#TimeUpgradesTabButton2').click(function () {OpenTimeUpgradesTab("2")});
+$('#TimeUpgradesTabButton3').click(function () {OpenTimeUpgradesTab("3")});
+$('#TimeUpgradesTabButtonQOL').click(function () {OpenTimeUpgradesTab("QOL")});
 
 $('#TimeUpgrade11').click(function () {BuyTimeUpgrade(1,1)})
 $('#TimeUpgrade12').click(function () {BuyTimeUpgrade(1,2)})
 $('#TimeUpgrade13').click(function () {BuyTimeUpgrade(1,3)})
+$('#TimeUpgrade21').click(function () {BuyTimeUpgrade(2,1)})
+$('#TimeUpgrade22').click(function () {BuyTimeUpgrade(2,2)})
+$('#TimeUpgrade23').click(function () {BuyTimeUpgrade(2,3)})
+$('#TimeUpgrade31').click(function () {BuyTimeUpgrade(3,1)})
+$('#TimeUpgrade32').click(function () {BuyTimeUpgrade(3,2)})
+$('#TimeUpgrade33').click(function () {BuyTimeUpgrade(3,3)})
+$('#TimeUpgrade41').click(function () {BuyTimeUpgrade(4,1)})
+$('#TimeUpgrade42').click(function () {BuyTimeUpgrade(4,2)})
+$('#TimeUpgrade43').click(function () {BuyTimeUpgrade(4,3)})
 
 $('#optionsbutton\\.changenotations').click(function() {changenotations()});
 $('#optionsbutton\\.changeautosave').click(function() {changeautosave()});
