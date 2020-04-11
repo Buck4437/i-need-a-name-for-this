@@ -260,7 +260,7 @@ function dynamicdisplay(){
   //time
   $('#timeamount2').text("Time: " + allnotations[player.currentnotation].format(player.timeamount,2,0));
   //timeprestige2
-  $('#timeprestige2').text("Reset to gain "+ allnotations[player.currentnotation].format(timeGainOnPrestige,2,0)+" Time");
+  $('#timeprestige2').text("Gain "+ allnotations[player.currentnotation].format(timeGainOnPrestige,2,0)+" Time");
 
 
   //layers tab
