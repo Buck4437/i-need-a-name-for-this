@@ -1,3 +1,4 @@
+
 var savetimer = 30
 var SaveLoadAnimCountdown = 0;
 var SaveLoadAnimActivated = false
@@ -19,7 +20,12 @@ function autosave(){
 
 //forced autosave
 function manualsave(){
-  savetimer = 0;
+  localStorage.setItem('player', JSON.stringify(player))
+  savetimer = 30;
+  SaveLoadAnimCountdown = 2;
+  SaveLoadAnimActivated = true;
+  document.getElementById("gamesavedtext").innerHTML = "Game Saved";
+  document.getElementById("gamesavedtext").style.opacity = 1;
 }
 
 
@@ -58,9 +64,6 @@ function savefixer(player){
   if(player.layers.dimlayer1.basecost===undefined){
     player.layers.dimlayer1.basecost=1
   }
-  if(player.layers.dimlayer1.basemulti===undefined){
-    player.layers.dimlayer1.basemulti=1
-  }
   if(player.layers.dimlayer1.costincrease===undefined){
     player.layers.dimlayer1.costincrease=4
   }
@@ -81,9 +84,6 @@ function savefixer(player){
   }
   if(player.layers.dimlayer2.basecost===undefined){
     player.layers.dimlayer2.basecost=400
-  }
-  if(player.layers.dimlayer2.basemulti===undefined){
-    player.layers.dimlayer2.basemulti=1
   }
   if(player.layers.dimlayer2.costincrease===undefined){
     player.layers.dimlayer2.costincrease=11
@@ -106,9 +106,6 @@ function savefixer(player){
   if(player.layers.dimlayer3.basecost===undefined){
     player.layers.dimlayer3.basecost="1e7"
   }
-  if(player.layers.dimlayer3.basemulti===undefined){
-    player.layers.dimlayer3.basemulti=1
-  }
   if(player.layers.dimlayer3.costincrease===undefined){
     player.layers.dimlayer3.costincrease=32
   }
@@ -121,9 +118,6 @@ function savefixer(player){
   if(player.expansioncost===undefined){
     player.expansioncost=5
   }
-  if(player.expansionbasecost===undefined){
-    player.expansionbasecost=5
-  }
   if(player.expansioncostincrease===undefined){
     player.expansioncostincrease=2
   }
@@ -134,7 +128,26 @@ function savefixer(player){
     player.currentnotation=0
   }
   if(player.autosave===undefined){
-    player.autosave="true"
+    player.autosave=true
+  }
+  if(player.timeamount===undefined){
+    player.timeamount=0
+  }
+  if(player.timeprestigeamount===undefined){
+    player.timeprestigeamount=0
+  }
+  if(player.autobuymax===undefined){
+    player.autobuymax=false
+  }
+  if(player.autobuymax===undefined){
+    player.autoexpansion=false
+  }
+  if(player.TimeUpgrades===undefined){
+    player.TimeUpgrades=[null,
+                  [null,0,0,0],
+                  [null,0,0,0],
+                  [null,0,0,0],
+                  [null,0,0,0]]
   }
 }
 
@@ -150,7 +163,6 @@ function convertsavetodecimal(player){
   player.layers.dimlayer1.cost = new Decimal(player.layers.dimlayer1.cost),
   player.layers.dimlayer1.multi = new Decimal(player.layers.dimlayer1.multi),
   player.layers.dimlayer1.basecost = new Decimal(player.layers.dimlayer1.basecost),
-  player.layers.dimlayer1.basemulti = new Decimal(player.layers.dimlayer1.basemulti),
   player.layers.dimlayer1.costincrease = new Decimal(player.layers.dimlayer1.costincrease),
   player.layers.dimlayer1.multiincrease = new Decimal(player.layers.dimlayer1.multiincrease),
 
@@ -160,7 +172,6 @@ function convertsavetodecimal(player){
   player.layers.dimlayer2.cost = new Decimal(player.layers.dimlayer2.cost),
   player.layers.dimlayer2.multi = new Decimal(player.layers.dimlayer2.multi),
   player.layers.dimlayer2.basecost = new Decimal(player.layers.dimlayer2.basecost),
-  player.layers.dimlayer2.basemulti = new Decimal(player.layers.dimlayer2.basemulti),
   player.layers.dimlayer2.costincrease = new Decimal(player.layers.dimlayer2.costincrease),
   player.layers.dimlayer2.multiincrease = new Decimal(player.layers.dimlayer2.multiincrease),
 
@@ -170,20 +181,24 @@ function convertsavetodecimal(player){
   player.layers.dimlayer3.cost = new Decimal(player.layers.dimlayer3.cost),
   player.layers.dimlayer3.multi = new Decimal(player.layers.dimlayer3.multi),
   player.layers.dimlayer3.basecost = new Decimal(player.layers.dimlayer3.basecost),
-  player.layers.dimlayer3.basemulti = new Decimal(player.layers.dimlayer3.basemulti),
   player.layers.dimlayer3.costincrease = new Decimal(player.layers.dimlayer3.costincrease),
   player.layers.dimlayer3.multiincrease = new Decimal(player.layers.dimlayer3.multiincrease),
 
   player.expansions = new Decimal (player.expansions),
   player.expansioncost = new Decimal (player.expansioncost),
-  player.expansionbasecost = new Decimal (player.expansionbasecost),
   player.expansioncostincrease = new Decimal (player.expansioncostincrease),
+  player.timeamount = new Decimal (player.timeamount),
+  player.timeprestigeamount = new Decimal (player.timeprestigeamount),
+  //player.autobuymax (no need conversion)
+  //player.autoexpansion (no need conversion)
+  //player.TimeUpgrades (no need conversion)
   player.updaterate = Number(player.updaterate),
-  player.currentnotation = Number(player.currentnotation),
-  player.autosave = player.autosave !== "false"
+  player.currentnotation = Number(player.currentnotation)
+  //player.autosave (no need conversion)
 }
 
 
+// load ur save
 autoloadfile();
 
 function SaveLoadAnimationTimer(){
@@ -209,14 +224,101 @@ function manualload(){
 //export and import uses atob/ btoa
 //placeholder
 
+//hard reset confirmation
+function hardreset(){
+  var HARDRESETCONFIRMATION = prompt("Do you want to completely erase your progress? Please enter \"RESET THE GAME\" in ALL CAPS to confirm. THIS ACTION CANNOT BE UNDONE.")
+  if (HARDRESETCONFIRMATION == "RESET THE GAME"){
+    player = {
+        money: new Decimal(1),
+        initmoney: new Decimal(1),
+        layers:{
+          dimlayer1:{
+            amount: new Decimal(0),
+            bought: new Decimal(0),
+            cost: new Decimal(1),
+            multi: new Decimal(1),
+            basecost: new Decimal(1),
+            costincrease: new Decimal(4),
+            multiincrease: new Decimal(1.5)
+          },
+          dimlayer2:{
+            amount: new Decimal(0),
+            bought: new Decimal(0),
+            cost: new Decimal(400),
+            multi: new Decimal(1),
+            basecost: new Decimal(400),
+            costincrease: new Decimal(11),
+            multiincrease: new Decimal(1.5)
+          },
+          dimlayer3:{
+            amount: new Decimal(0),
+            bought: new Decimal(0),
+            cost: new Decimal(1e7),
+            multi: new Decimal(1),
+            basecost: new Decimal(1e7),
+            costincrease: new Decimal(32),
+            multiincrease: new Decimal(1.5)
+          }
+        },
+      expansions: new Decimal(0),
+      expansioncost: new Decimal(5),
+      expansioncostincrease: new Decimal(2),
+      timeamount: new Decimal(0),
+      timeprestigeamount: new Decimal(0),
+      autobuymax: false,
+      autoexpansion: false,
+      TimeUpgrades: [null,
+                    [null,0,0,0],
+                    [null,0,0,0],
+                    [null,0,0,0],
+                    [null,0,0,0]
+                    ],
+      updaterate: 50,
+      currentnotation: 0,
+      autosave: true
+    };
+    manualsave()
+  }
+}
 
 //run thing on timer
 setInterval(function(){ autosave(),
                         SaveLoadAnimationTimer()
                       },50);
 
+function exportsave(){
+  $("#exportfailsave").css("display", "inline")
+  $("#exportfailsavefield").val(window.btoa(JSON.stringify(player)));
+  var save = $("#exportfailsavefield")
+  save.select();
+ try {
+   document.execCommand('copy');
+   alert("Save copied to clipboard!")
+ } catch (error) {
+     alert('Save exported!');
+   }
+}
+
+function importsave(){
+  var save = prompt("Import your save.")
+  if (save == null || save == "") {
+    alert("Invalid save!")
+  } else {
+    try{
+      player = JSON.parse(window.atob(save))
+      savefixer(player);
+      convertsavetodecimal(player);
+    } catch (error){
+      alert("Invalid save!")
+    }
+  }
+}
+
 
 
 //buttons
-document.getElementById('optionsbutton.manualsave').onclick = function() {manualsave()};
-document.getElementById('optionsbutton.manualload').onclick = function() {manualload()};
+$('#optionsbutton\\.manualsave').click(function() {manualsave()});
+$('#optionsbutton\\.manualload').click(function() {manualload()});
+$('#optionsbutton\\.exportsave').click(function() {exportsave()});
+$('#optionsbutton\\.importsave').click(function() {importsave()});
+$('#optionsbutton\\.hardreset').click(function() {hardreset()});

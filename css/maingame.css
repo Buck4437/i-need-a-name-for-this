@@ -6,53 +6,116 @@ body{
   min-width: 1000px;
   min-height: 1000px
 }
-.top{
-  font-size: 25px
+button{
+  background-color:#e7e7e7;
+  color:black;
+  border-radius: 4px;
+  border: 3px solid grey;
+  transition-duration: 0.3s
 }
+button:hover{
+  background-color:#232323;
+  color:white;
+}
+
+
+.TopBarCurrency{
+  font-size: 30px;
+  display:inline-block
+}
+
+#timeprestige2{
+  width:75%;
+  height: 60px;
+  background-color:black;
+  color:blue;
+  border-radius: 4px;
+  border: 3px solid darkblue;
+  transition-duration: 0.3s
+}
+#timeprestige2:hover{
+  background-color:white;
+  color:black;
+  border-radius: 4px;
+}
+
+
 #gamesavedtext{
   opacity:0 ;
   text-align: right;
 }
 
+
+
 .tabbuttons{
  display: inline;
  width: 10%;
 }
+/* layers */
 .leftpart{
   width: 50%;
 }
-.dimlayers, .expansionprestige{
+.dimlayers, .expansionprestige, .timeprestige, .TimeUpgrades{
   border-bottom: 1px solid black;
   border-collapse: collapse;
   padding: 0.5%;
 }
-.tabs .layers .leftpart .left{
+.layers .leftpart .dimlayers .left, .layers .leftpart .expansionprestige .left, .layers .leftpart .timeprestige .left{
   text-align: left;
   display: inline-block;
   width: 20%;
 }
-.tabs .layers .leftpart .center{
+.layers .leftpart .dimlayers .center, .layers .leftpart .expansionprestige .center, .layers .leftpart .timeprestige .center{
   text-align: center;
   display: inline-block;
   width: 40%;
 }
-.tabs .layers .leftpart .right{
+.layers .leftpart .dimlayers .right, .layers .leftpart .expansionprestige .right, .layers .leftpart .timeprestige .right{
   text-align: center;
   display: inline-block;
   width: 35%;
 }
-.tabs .layers .leftpart .dimlayers:hover, .expansionprestige:hover{
+.tabs .layers .leftpart .dimlayers:hover, .expansionprestige:hover, .timeprestige:hover{
   background-color: #dddddd;
 }
-#dimlayer2, #dimlayer3, #expansion, #buymax{
+#dimlayer2, #dimlayer3, #expansion, #buymax, #autobuymax, #autoexpansion, #timeprestige{
   display: none;
 }
-#buymax{
-  margin: 5px;
+
+.automationButtons{
+  margin: 3px;
+}
+
+/* time prestige */
+/* time amount 2 at top bar */
+#timeamount, #timeamount2{
+  font-size: 25px;
+  color: DarkBlue
+}
+
+#TimeUpgradesTier2, #TimeUpgradesTier3, #TimeUpgradesTierQOL{
+  display: none;
 }
 
 
-.tabs .options{
+.tabs .layers .leftpart #time-prestige-section .TimeUpgrades .left{
+  text-align: left;
+  display: inline-block;
+  width: 60%;
+}
+
+.tabs .layers .leftpart #time-prestige-section .TimeUpgrades .right{
+  text-align: center;
+  display: inline-block;
+  width: 35%;
+}
+.TimeUpgrades:hover{
+  background-color: #dddddd;
+}
+
+
+
+.tabs .milestones, .tabs .options{
   display: none;
 }
 
@@ -61,4 +124,16 @@ body{
   height:10%;
   padding:10px;
   text-align: center;
+}
+
+#exportfailsave{
+  display: none;
+}
+
+.footer {
+  font-size: 30px;
+  position: fixed;
+  margin-left: 5px;
+  bottom: 0;
+  margin-bottom: 5px;
 }
