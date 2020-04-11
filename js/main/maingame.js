@@ -84,7 +84,7 @@ function expansionprestige(){
     }
     player.expansioncost= player.expansions.times(2).plus(5)
     for(ex=1;ex<=3;ex++){
-      var layer = "dimlayer"+ex;
+      let layer = "dimlayer"+ex;
       player.layers[layer].amount = new Decimal(0);
       player.layers[layer].bought = new Decimal(0);
       player.layers[layer].cost = player.layers[layer].basecost;
@@ -100,7 +100,7 @@ function timeprestige(){
   if(player.money.gte(new Decimal(1e27))){
     player.timeprestigeamount = player.timeprestigeamount.plus(1);
     for(w = 1 ; w<= 3 ; w ++){
-      var layername = "dimlayer" + w;
+      let layername = "dimlayer" + w;
       player.layers[layername].amount = new Decimal(0);
       player.layers[layername].bought = new Decimal(0);
       player.layers[layername].cost = player.layers[layername].basecost;
@@ -183,7 +183,7 @@ function changeautosave(){
 //make some variable dynamic
 function dynamicvariable(){
   for(jc = 1 ; jc <= 3 ; jc ++ ){
-    var layer = "dimlayer" + jc;
+    let layer = "dimlayer" + jc;
     //layer multi increase
     if(player.TimeUpgrades[3][1]==1){
       player.layers[layer].multiincrease = new Decimal("1.7")
@@ -224,9 +224,9 @@ function dynamicvariable(){
     //scaling cost
     player.layers[layer].cost = player.layers[layer].basecost.times(player.layers[layer].costincrease.pow(player.layers[layer].bought));
     //ramping
-    var ramping_starts = [null,50,27,16] //layer 1: 50, 2: 27, 3:16
-    var ramp_coeff = Decimal.max(0,player.layers[layer].bought.minus(ramping_starts[jc]-1))
-    var ramp_coeff2 = ramp_coeff.times(ramp_coeff.plus(1)).div(2)
+    let ramping_starts = [null,50,27,16] //layer 1: 50, 2: 27, 3:16
+    let ramp_coeff = Decimal.max(0,player.layers[layer].bought.minus(ramping_starts[jc]-1))
+    let ramp_coeff2 = ramp_coeff.times(ramp_coeff.plus(1)).div(2)
 
     if(player.TimeUpgrades[3][3]==1){
       player.layers[layer].cost = player.layers[layer].cost.times(Decimal.max(1,Decimal.pow(1.1, ramp_coeff2)))
@@ -370,7 +370,6 @@ function dynamicdisplay(){
 //change visibility of layers, upgrades etc
 function visibility(){
   $("#TopBarTimeAmount").css("visibility", "hidden");
-  $(".top2").css("display", "none");
   $("#timeprestige2").css("visibility", "hidden");
 
   $("#time-prestige-section").css("display", "none");
@@ -383,7 +382,6 @@ function visibility(){
   $("#buymax").css("display", "none");
   if(player.timeprestigeamount.gte(1)){
     $("#TopBarTimeAmount").css("visibility", "visible");
-    $(".top2").css("display", "block");
     if(player.money.gte(1e27)){
       $("#timeprestige2").css("visibility", "visible");
     }
@@ -423,7 +421,7 @@ function visibility(){
 
 //tabs changes
 function opentab(tab){
-  var tabcontent = $(".tabcontents");
+  let tabcontent = $(".tabcontents");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
@@ -431,7 +429,7 @@ function opentab(tab){
 }
 
 function OpenTimeUpgradesTab(tier){
-  var tabcontent = $(".TimeUpgradesTiers")
+  let tabcontent = $(".TimeUpgradesTiers")
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
@@ -446,8 +444,8 @@ setInterval(function update(){
              dynamicvariable()
              autoexpansion();
              dynamicvariable()
-             visibility();
              dynamicdisplay();
+             visibility();
            },50);
 
 
