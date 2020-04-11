@@ -370,8 +370,8 @@ function dynamicdisplay(){
 
 //change visibility of layers, upgrades etc
 function visibility(){
-  $("#TopBarTimeAmount").css("display", "none");
-  $("#timeprestige2").css("display", "none");
+  $("#TopBarTimeAmount").css("visibility", "hidden");
+  $("#timeprestige2").css("visibility", "hidden");
 
   $("#time-prestige-section").css("display", "none");
   $("#autobuymax").css("display", "none");
@@ -382,9 +382,9 @@ function visibility(){
   $("#expansion").css("display", "none");
   $("#buymax").css("display", "none");
   if(player.timeprestigeamount.gte(1)){
-    $("#TopBarTimeAmount").css("display", "inline-block");
+    $("#TopBarTimeAmount").css("visibility", "visible");
     if(player.money.gte(1e27)){
-      $("#timeprestige2").css("display", "inline-block");
+      $("#timeprestige2").css("visibility", "visible");
     }
 
     $("#time-prestige-section").css("display", "block");
