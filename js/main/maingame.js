@@ -1,4 +1,3 @@
-
 var player = {
     //remember to update saveloadresetfile.js accordingly (savefixer converter and hard reset)
     money: new Decimal(1),
