@@ -8,10 +8,25 @@
   <body>
     <div id="game">
       <div class="top">
-        Space: <span class="top" id="player.money">1</span>
+        <div class="TopBarCurrency" style="width:35%">
+          Space: <span class="TopBarCurrency" id="player.money">1</span>
+        </div>
+        <div id="TopBarTimeAmount" class="TopBarCurrency" style="width:25%">
+          <span id="timeamount2">Time: 10</span>
+        </div>
+        <span id="gamesavedtext">Game Saved</span>
+      </div>
+      <div class="top2">
+        <div style="width:35%;display:inline-block;font-size: 20px">
+          &nbsp
+        </div>
+        <div style="width:25%;display:inline-block">
+            <button id="timeprestige2" style="display:none;font-size: 20px">+ 1</button>
+        </div>
         <span id="gamesavedtext">Game Saved</span>
       </div>
       <br>
+
       <div class="tabbuttons">
         <button class="layers" id="opentab.layers">Layers</button>
         <button class="milestones" id="opentab.milestones">Milestones</button>
@@ -81,16 +96,14 @@
               </div>
             </div>
             <br>
-            <div class="timeprestige" id="timeprestige">
+            <div class="timeprestige" id="timeprestige" style="color:darkblue">
               <div class="timeprestigename">
                 <b>Time </b>(<span id="TimePrestigeAmount">0</span>)
               </div>
-              <div class="left">
+              <div class="left" style="width:55%">
                 Reset to gain <b><span id="TimeGainOnPrestige">1</span></b> Time
               </div>
-              <div class="center">
-              </div>
-              <div class="right">
+              <div class="right" style="width:40%">
                 <span class="timecosts" id="timecost">Requirement: 1e27 Space</span>
               </div>
             </div>
@@ -178,7 +191,7 @@
                       <span id="TimeUpgrade31Desc">Multiplier for buying layers 1.55x -> 1.7x<span>
                     </div>
                     <div class="right">
-                      <span id="TimeUpgrade31Cost">Cost: 250 Time</span>
+                      <span id="TimeUpgrade31Cost">Cost: 200 Time</span>
                     </div>
                   </div>
                   <div class="TimeUpgrades" id="TimeUpgrade32">
@@ -252,12 +265,14 @@
             <span id="currentautosave">On</span>
           </button>
           <br>
+          <br>
           <button class="optionsbutton" id="optionsbutton.manualsave">
             Save
           </button>
           <button class="optionsbutton" id="optionsbutton.manualload">
             Load
           </button>
+          <br>
           <br>
           <button class="optionsbutton" id="optionsbutton.exportsave">
             Export
@@ -266,9 +281,11 @@
             Import
           </button>
           <br>
+          <br>
           <button class="optionsbutton" id="optionsbutton.hardreset">
             HARD RESET
           </button>
+          <br>
           <br>
           <div id="exportfailsave">
             Save: <input type="text" id="exportfailsavefield"></input>

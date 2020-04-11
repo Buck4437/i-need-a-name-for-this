@@ -51,7 +51,7 @@ var player = {
   };
 var timeGainOnPrestige = new Decimal(1)
 var notationlist = ['Standard', 'Scientific', 'Mixed Scientific', 'Engineering',  'Mixed Engineering', 'Letters']
-var timeupgradescost = [null, [null,1,1,1], [null,1,3,10], [null,250,1000,3000], [null,1,25,1000]]
+var timeupgradescost = [null, [null,1,1,1], [null,1,3,10], [null,200,1000,3000], [null,1,25,1000]]
 
 
 
@@ -257,6 +257,11 @@ function dynamicdisplay(){
   //top display
   //money
   $('#player\\.money').text(allnotations[player.currentnotation].format(player.money,2,1));
+  //time
+  $('#timeamount2').text("Time: " + allnotations[player.currentnotation].format(player.timeamount,2,0));
+  //timeprestige2
+  $('#timeprestige2').text("Reset to gain "+ allnotations[player.currentnotation].format(timeGainOnPrestige,2,0)+" Time");
+
 
   //layers tab
   //space layers
@@ -274,7 +279,7 @@ function dynamicdisplay(){
   $('#TimePrestigeAmount').text(allnotations[player.currentnotation].format(player.timeprestigeamount,2,0));
   $('#TimeGainOnPrestige').text(allnotations[player.currentnotation].format(timeGainOnPrestige,2,0));
   $('#timecost').text("Requirement: " + allnotations[player.currentnotation].format(new Decimal(1e27),0,0) + " Space");
-  $('#timeamount').text("Time: " + allnotations[player.currentnotation].format(player.timeamount,2,0));
+  $('#timeamount').text("Time: " + allnotations[player.currentnotation].format(player.timeamount,2,0))
 
   //colour of layers,expansion and time prestige
   for (i=1;i<=3;i++){
@@ -365,6 +370,9 @@ function dynamicdisplay(){
 
 //change visibility of layers, upgrades etc
 function visibility(){
+  $("#TopBarTimeAmount").css("display", "none");
+  $("#timeprestige2").css("display", "none");
+
   $("#time-prestige-section").css("display", "none");
   $("#autobuymax").css("display", "none");
   $("#autoexpansion").css("display", "none");
@@ -374,6 +382,11 @@ function visibility(){
   $("#expansion").css("display", "none");
   $("#buymax").css("display", "none");
   if(player.timeprestigeamount.gte(1)){
+    $("#TopBarTimeAmount").css("display", "inline-block");
+    if(player.money.gte(1e27)){
+      $("#timeprestige2").css("display", "inline-block");
+    }
+
     $("#time-prestige-section").css("display", "block");
     $("#autobuymax").css("display", "inline");
     $("#timeprestige").css("display", "block");
@@ -438,6 +451,8 @@ setInterval(function update(){
 
 
 //buttons
+$('#timeprestige2').click(function() {timeprestige()});
+
 $('#opentab\\.layers').click(function() {opentab("layers")});
 $('#opentab\\.milestones').click(function() {opentab("milestones")});
 $('#opentab\\.options').click(function() {opentab("options")});
