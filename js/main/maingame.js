@@ -182,6 +182,9 @@ function opentab(tab){
     tabcontent[i].style.display = "none";
   }
   $("#"+tab+"tab").css("display", "block");
+  if(tab!="options"){
+    $("#exportfailsave").css("display", "none")
+  }
 }
 
 function OpenTimeUpgradesTab(tier){
