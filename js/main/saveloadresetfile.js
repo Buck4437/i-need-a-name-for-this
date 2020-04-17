@@ -36,6 +36,8 @@ function autoloadfile(){
     player = JSON.parse(localStorage.getItem('player'))
     savefixer(player);
     convertsavetodecimal(player);
+    unlockfixer(player);
+    versionfixer(player);
   }
 }
 
@@ -77,13 +79,13 @@ function savefixer(player){
     player.layers.dimlayer2.bought=0
   }
   if(player.layers.dimlayer2.cost===undefined){
-    player.layers.dimlayer2.cost=400
+    player.layers.dimlayer2.cost=20
   }
   if(player.layers.dimlayer2.multi===undefined){
     player.layers.dimlayer2.multi=1
   }
   if(player.layers.dimlayer2.basecost===undefined){
-    player.layers.dimlayer2.basecost=400
+    player.layers.dimlayer2.basecost=20
   }
   if(player.layers.dimlayer2.costincrease===undefined){
     player.layers.dimlayer2.costincrease=11
@@ -98,13 +100,13 @@ function savefixer(player){
     player.layers.dimlayer3.bought=0
   }
   if(player.layers.dimlayer3.cost===undefined){
-    player.layers.dimlayer3.cost="1e7"
+    player.layers.dimlayer3.cost="1e6"
   }
   if(player.layers.dimlayer3.multi===undefined){
     player.layers.dimlayer3.multi=1
   }
   if(player.layers.dimlayer3.basecost===undefined){
-    player.layers.dimlayer3.basecost="1e7"
+    player.layers.dimlayer3.basecost="1e6"
   }
   if(player.layers.dimlayer3.costincrease===undefined){
     player.layers.dimlayer3.costincrease=32
@@ -148,6 +150,12 @@ function savefixer(player){
                   [null,0,0,0],
                   [null,0,0,0],
                   [null,0,0,0]]
+  }
+  if(player.unlocks.TimeUpgrades===undefined){
+    player.unlocks.TimeUpgrades===false
+  }
+  if(player.versionNo===undefined){
+    player.versionNo===[1,1,0]
   }
 }
 
@@ -195,6 +203,23 @@ function convertsavetodecimal(player){
   player.updaterate = Number(player.updaterate),
   player.currentnotation = Number(player.currentnotation)
   //player.autosave (no need conversion)
+  //unlocks (no need conversion)
+}
+
+function unlockfixer(player){
+  if(player.timeamount.gt(0)||player.timeprestigeamount.gt(0)){
+    player.unlocks.TimeUpgrades = true
+  }
+}
+
+//make changes due to version differenece
+function versionfixer(player){
+  if(player.layers["dimlayer2"].basecost.eq(400)){
+    player.layers["dimlayer2"].basecost==new Decimal(20)
+  }
+  if(player.layers["dimlayer3"].basecost.eq(1e7)){
+    player.layers["dimlayer3"].basecost=new Decimal("1e6")
+  }
 }
 
 
@@ -244,18 +269,18 @@ function hardreset(){
           dimlayer2:{
             amount: new Decimal(0),
             bought: new Decimal(0),
-            cost: new Decimal(400),
+            cost: new Decimal(20),
             multi: new Decimal(1),
-            basecost: new Decimal(400),
+            basecost: new Decimal(20),
             costincrease: new Decimal(11),
             multiincrease: new Decimal(1.5)
           },
           dimlayer3:{
             amount: new Decimal(0),
             bought: new Decimal(0),
-            cost: new Decimal(1e7),
+            cost: new Decimal(1e6),
             multi: new Decimal(1),
-            basecost: new Decimal(1e7),
+            basecost: new Decimal(1e6),
             costincrease: new Decimal(32),
             multiincrease: new Decimal(1.5)
           }
@@ -275,7 +300,11 @@ function hardreset(){
                     ],
       updaterate: 50,
       currentnotation: 0,
-      autosave: true
+      autosave: true,
+      unlocks:{
+          TimeUpgrades:false
+        },
+      versionNo:[1,1,0]
     };
     manualsave()
   }
