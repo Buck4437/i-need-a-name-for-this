@@ -10,15 +10,8 @@ function BuyTimeUpgrade(a,b){
 
 //buttons
 
-$('#TimeUpgrade11').click(function () {BuyTimeUpgrade(1,1)})
-$('#TimeUpgrade12').click(function () {BuyTimeUpgrade(1,2)})
-$('#TimeUpgrade13').click(function () {BuyTimeUpgrade(1,3)})
-$('#TimeUpgrade21').click(function () {BuyTimeUpgrade(2,1)})
-$('#TimeUpgrade22').click(function () {BuyTimeUpgrade(2,2)})
-$('#TimeUpgrade23').click(function () {BuyTimeUpgrade(2,3)})
-$('#TimeUpgrade31').click(function () {BuyTimeUpgrade(3,1)})
-$('#TimeUpgrade32').click(function () {BuyTimeUpgrade(3,2)})
-$('#TimeUpgrade33').click(function () {BuyTimeUpgrade(3,3)})
-$('#TimeUpgrade41').click(function () {BuyTimeUpgrade(4,1)})
-$('#TimeUpgrade42').click(function () {BuyTimeUpgrade(4,2)})
-$('#TimeUpgrade43').click(function () {BuyTimeUpgrade(4,3)})
+for (let i = 1; i <=4; i++){
+  for (let j = 1; j <=3; j++){
+    $('#TimeUpgrade'+i+j).click(function (){BuyTimeUpgrade(i,j)})
+  }
+}

@@ -151,11 +151,16 @@ function savefixer(player){
                   [null,0,0,0],
                   [null,0,0,0]]
   }
+  if(player.unlocks===undefined)[
+    player.unlocks={
+      TimeUpgrades: false
+    }
+  ]
   if(player.unlocks.TimeUpgrades===undefined){
     player.unlocks.TimeUpgrades===false
   }
   if(player.versionNo===undefined){
-    player.versionNo===[1,1,0]
+    player.versionNo===[1,0,2]
   }
 }
 
@@ -212,7 +217,7 @@ function unlockfixer(player){
   }
 }
 
-//make changes due to version differenece
+//make changes due to version differenece and because i forgot to include them in v1.0.0
 function versionfixer(player){
   if(player.layers["dimlayer2"].basecost.eq(400)){
     player.layers["dimlayer2"].basecost==new Decimal(20)
@@ -223,7 +228,7 @@ function versionfixer(player){
 }
 
 
-// load ur save
+// load ur save lmao
 autoloadfile();
 
 function SaveLoadAnimationTimer(){
@@ -266,6 +271,7 @@ function hardreset(){
             costincrease: new Decimal(4),
             multiincrease: new Decimal(1.5)
           },
+          multi: new Decimal(1),
           dimlayer2:{
             amount: new Decimal(0),
             bought: new Decimal(0),
@@ -304,7 +310,7 @@ function hardreset(){
       unlocks:{
           TimeUpgrades:false
         },
-      versionNo:[1,1,0]
+      versionNo:[1,0,2]
     };
     manualsave()
   }
@@ -328,18 +334,30 @@ function exportsave(){
    }
 }
 
-function importsave(){
-  var save = prompt("Import your save.")
+function validSaveString(save){
   if (save == null || save == "") {
-    alert("Invalid save!")
+    return false
   } else {
     try{
-      player = JSON.parse(window.atob(save))
-      savefixer(player);
-      convertsavetodecimal(player);
+      JSON.parse(window.atob(save))
+      return true
     } catch (error){
-      alert("Invalid save!")
+      return false
     }
+  }
+}
+
+function importsave(){
+  let save = prompt("Import your save.")
+  if (validSaveString(save)) {
+    player = JSON.parse(window.atob(save))
+    savefixer(player)
+    convertsavetodecimal(player);
+    unlockfixer(player);
+    versionfixer(player);
+  }
+  else {
+    alert("Invalid save!")
   }
 }
 
