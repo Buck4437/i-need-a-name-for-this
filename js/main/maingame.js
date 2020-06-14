@@ -15,7 +15,7 @@ var player = {
       dimlayer2:{
         amount: new Decimal(0),
         bought: new Decimal(0),
-        cost: new Decimal(400),
+        cost: new Decimal(20),
         multi: new Decimal(1),
         basecost: new Decimal(20),
         costincrease: new Decimal(11),
@@ -24,7 +24,7 @@ var player = {
       dimlayer3:{
         amount: new Decimal(0),
         bought: new Decimal(0),
-        cost: new Decimal(1e7),
+        cost: new Decimal(1e6),
         multi: new Decimal(1),
         basecost: new Decimal(1e6),
         costincrease: new Decimal(32),

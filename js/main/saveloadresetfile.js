@@ -51,6 +51,49 @@ function savefixer(player){
   if(player.initmoney===undefined){
     player.initmoney=1
   }
+
+
+  if(player.layers===undefined){
+    player.layers={
+      dimlayer1:{
+        amount: 0,
+        bought: 0,
+        cost: 1,
+        multi: 1,
+        basecost: 1,
+        costincrease: 4,
+        multiincrease: 1.5
+      },
+      dimlayer2:{
+        amount: 0,
+        bought: 0,
+        cost: 20,
+        multi: 1,
+        basecost: 20,
+        costincrease: 11,
+        multiincrease: 1.5
+      },
+      dimlayer3:{
+        amount: 0,
+        bought: 0,
+        cost: "1e6",
+        multi: 1,
+        basecost: 1e6,
+        costincrease: 32,
+        multiincrease: 1.5
+      }
+  }
+  if(player.layers.dimlayer1===undefined){
+      player.layers.dimlayer1={
+        amount: 0,
+        bought: 0,
+        cost: 1,
+        multi: 1,
+        basecost: 1,
+        costincrease: 4,
+        multiincrease: 1.5
+      }
+  }
   if(player.layers.dimlayer1.amount===undefined){
     player.layers.dimlayer1.amount=0
   }
@@ -71,6 +114,18 @@ function savefixer(player){
   }
   if(player.layers.dimlayer1.multiincrease===undefined){
     player.layers.dimlayer1.multiincrease=1.5
+  }
+
+  if(player.layers.dimlayer2===undefined){
+      player.layers.dimlayer2={
+        amount: 0,
+        bought: 0,
+        cost: 20,
+        multi: 1,
+        basecost: 20,
+        costincrease: 11,
+        multiincrease: 1.5
+      }
   }
   if(player.layers.dimlayer2.amount===undefined){
     player.layers.dimlayer2.amount=0
@@ -93,6 +148,19 @@ function savefixer(player){
   if(player.layers.dimlayer2.multiincrease===undefined){
     player.layers.dimlayer2.multiincrease=1.5
   }
+
+  if(player.layers.dimlayer3===undefined){
+      player.layers.dimlayer3={
+        amount: 0,
+        bought: 0,
+        cost: 1e6,
+        multi: 1,
+        basecost: 1,
+        costincrease: 32,
+        multiincrease: 1.5
+      }
+    }
+  }
   if(player.layers.dimlayer3.amount===undefined){
     player.layers.dimlayer3.amount=0
   }
@@ -114,6 +182,8 @@ function savefixer(player){
   if(player.layers.dimlayer3.multiincrease===undefined){
     player.layers.dimlayer3.multiincrease=1.5
   }
+
+
   if(player.expansions===undefined){
     player.expansions=0
   }
@@ -151,11 +221,11 @@ function savefixer(player){
                   [null,0,0,0],
                   [null,0,0,0]]
   }
-  if(player.unlocks===undefined)[
+  if(player.unlocks===undefined){
     player.unlocks={
       TimeUpgrades: false
     }
-  ]
+  }
   if(player.unlocks.TimeUpgrades===undefined){
     player.unlocks.TimeUpgrades===false
   }
