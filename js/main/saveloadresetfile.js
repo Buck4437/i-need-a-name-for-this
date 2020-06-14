@@ -82,6 +82,7 @@ function savefixer(player){
         costincrease: 32,
         multiincrease: 1.5
       }
+    }
   }
   if(player.layers.dimlayer1===undefined){
       player.layers.dimlayer1={
@@ -94,11 +95,11 @@ function savefixer(player){
         multiincrease: 1.5
       }
   }
-  if(player.layers.dimlayer1.amount===undefined){
-    player.layers.dimlayer1.amount=0
-  }
   if(player.layers.dimlayer1.bought===undefined){
     player.layers.dimlayer1.bought=0
+  }
+  if(player.layers.dimlayer1.amount===undefined){
+    player.layers.dimlayer1.amount=player.layers.dimlayer1.bought
   }
   if(player.layers.dimlayer1.cost===undefined){
     player.layers.dimlayer1.cost=1
@@ -127,11 +128,11 @@ function savefixer(player){
         multiincrease: 1.5
       }
   }
-  if(player.layers.dimlayer2.amount===undefined){
-    player.layers.dimlayer2.amount=0
-  }
   if(player.layers.dimlayer2.bought===undefined){
     player.layers.dimlayer2.bought=0
+  }
+  if(player.layers.dimlayer2.amount===undefined){
+    player.layers.dimlayer2.amount=player.layers.dimlayer2.bought
   }
   if(player.layers.dimlayer2.cost===undefined){
     player.layers.dimlayer2.cost=20
@@ -159,13 +160,12 @@ function savefixer(player){
         costincrease: 32,
         multiincrease: 1.5
       }
-    }
-  }
-  if(player.layers.dimlayer3.amount===undefined){
-    player.layers.dimlayer3.amount=0
   }
   if(player.layers.dimlayer3.bought===undefined){
     player.layers.dimlayer3.bought=0
+  }
+  if(player.layers.dimlayer3.amount===undefined){
+    player.layers.dimlayer3.amount=player.layers.dimlayer1.bought
   }
   if(player.layers.dimlayer3.cost===undefined){
     player.layers.dimlayer3.cost="1e6"
