@@ -206,29 +206,40 @@ setInterval(function update(){
              updateVariables()
              updateUI();
            },50);
-           
+
 
 
 //buttons
 $('#timeprestige2').click(function() {timeprestige()});
 
+{
+  let array = ['layers','milestones','options']
+  for (let i=0;i<=array.length-1;i++){
+    $('#opentab\\.'+array[i]).click(function () {opentab(array[i])});
+  }
+}
+
+
 $('#opentab\\.layers').click(function() {opentab("layers")});
 $('#opentab\\.milestones').click(function() {opentab("milestones")});
 $('#opentab\\.options').click(function() {opentab("options")});
 
-$('#dimlayer1').click(function() {buylayer("dimlayer1")});
-$('#dimlayer2').click(function() {buylayer("dimlayer2")});
-$('#dimlayer3').click(function() {buylayer("dimlayer3")});
+for(let i = 1; i<=3; i++){
+  $('#dimlayer'+i).click(function() {buylayer("dimlayer"+i)});
+}
+
 $('#expansion').click(function() {expansionprestige()});
 $('#timeprestige').click(function() {timeprestige()});
 $('#buymax').click(function() {buymax()});
 $('#autobuymax').click(function() {toggleautobuymax()});
 $('#autoexpansion').click(function() {toggleautoexpansion()});
 
-$('#TimeUpgradesTabButton1').click(function () {OpenTimeUpgradesTab("1")});
-$('#TimeUpgradesTabButton2').click(function () {OpenTimeUpgradesTab("2")});
-$('#TimeUpgradesTabButton3').click(function () {OpenTimeUpgradesTab("3")});
-$('#TimeUpgradesTabButtonQOL').click(function () {OpenTimeUpgradesTab("QOL")});
+{
+  let array = ['1','2','3','QOL']
+  for (let i=0;i<=array.length-1;i++){
+    $('#TimeUpgradesTabButton'+array[i]).click(function () {OpenTimeUpgradesTab(array[i])});
+  }
+}
 
 $('#optionsbutton\\.changenotations').click(function() {changenotations()});
 $('#optionsbutton\\.changeautosave').click(function() {changeautosave()});
