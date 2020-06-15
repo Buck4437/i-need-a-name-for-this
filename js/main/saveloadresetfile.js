@@ -48,6 +48,9 @@ function savefixer(player){
   if(player.money===undefined){
     player.money=1
   }
+  if(player.maxMoneyTime===undefined){
+    player.maxMoneyTime=player.money
+  }
   if(player.initmoney===undefined){
     player.initmoney=1
   }
@@ -238,6 +241,7 @@ function savefixer(player){
 
 function convertsavetodecimal(player){
   player.money = new Decimal(player.money),
+  player.maxMoneyTime = new Decimal(player.maxMoneyTime),
   player.initmoney = new Decimal(player.initmoney),
 
   //layer 1
@@ -330,6 +334,7 @@ function hardreset(){
   if (HARDRESETCONFIRMATION == "RESET THE GAME"){
     player = {
         money: new Decimal(1),
+        maxMoneyTime: new Decimal(1),
         initmoney: new Decimal(1),
         layers:{
           dimlayer1:{

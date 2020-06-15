@@ -1,6 +1,7 @@
 var player = {
     //remember to update saveloadresetfile.js accordingly (savefixer converter and hard reset)
     money: new Decimal(1),
+    maxMoneyTime: new Decimal(1),
     initmoney: new Decimal(1),
     layers:{
       dimlayer1:{
@@ -110,6 +111,7 @@ function timeprestige(){
       player.layers[layername].cost = player.layers[layername].basecost;
     }
     player.money = player.initmoney;
+    player.maxMoneyTime = player.initmoney;
     if(player.TimeUpgrades[4][2]==1){
       player.expansions = new Decimal(5)
     }

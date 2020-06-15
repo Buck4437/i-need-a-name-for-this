@@ -1,4 +1,11 @@
 //they should be updated as soon as anything updates
+
+function updateVariablesMoney(){
+  if(player.money.gt(player.maxMoneyTime))[
+    player.maxMoneyTime = player.money
+  ]
+}
+
 function updateVariablesLayers(){
   for(jc = 1 ; jc <= 3 ; jc ++ ){
     let layer = "dimlayer" + jc;
@@ -61,7 +68,7 @@ function updateVariablesExpansions(){
 
 function updateVariablesTime(){
   //prestige time gain
-  timeGainOnPrestige = Decimal.pow(10, Decimal.minus(Decimal.log10(player.money),27).div(27))
+  timeGainOnPrestige = Decimal.pow(10, Decimal.minus(Decimal.log10(player.maxMoneyTime),27).div(27))
   if(player.TimeUpgrades[3][2]==1){
     timeGainOnPrestige = timeGainOnPrestige.times(new Decimal(1.1).pow(player.expansions))
   }
@@ -69,6 +76,7 @@ function updateVariablesTime(){
 }
 
 function updateVariables(){
+  updateVariablesMoney()
   updateVariablesLayers()
   updateVariablesExpansions()
   updateVariablesTime()
