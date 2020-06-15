@@ -116,6 +116,7 @@ button:hover{
 }
 .TimeUpgrades:hover{
   background-color: #dddddd;
+  cursor: pointer;
 }
 
 

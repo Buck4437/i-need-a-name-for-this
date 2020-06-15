@@ -206,6 +206,7 @@ setInterval(function update(){
              updateVariables()
              updateUI();
            },50);
+           
 
 
 //buttons

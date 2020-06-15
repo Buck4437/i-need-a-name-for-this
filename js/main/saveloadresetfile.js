@@ -38,6 +38,7 @@ function autoloadfile(){
     convertsavetodecimal(player);
     unlockfixer(player);
     versionfixer(player);
+    UIdefault()
   }
 }
 
@@ -388,6 +389,7 @@ function hardreset(){
       versionNo:[1,0,2]
     };
     manualsave()
+    UIdefault()
   }
 }
 
@@ -430,6 +432,7 @@ function importsave(){
     convertsavetodecimal(player);
     unlockfixer(player);
     versionfixer(player);
+    UIdefault()
   }
   else {
     alert("Invalid save!")

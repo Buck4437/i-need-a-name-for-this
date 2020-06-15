@@ -182,3 +182,9 @@ function updateUI(){
    updateUIOptions()
    updateUIVisibility()
 }
+
+
+function UIdefault(){
+  opentab("layers")
+  OpenTimeUpgradesTab("1")
+}
