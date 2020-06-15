@@ -36,6 +36,9 @@ function autoloadfile(){
     player = JSON.parse(localStorage.getItem('player'))
     savefixer(player);
     convertsavetodecimal(player);
+    unlockfixer(player);
+    versionfixer(player);
+    UIdefault()
   }
 }
 
@@ -46,14 +49,61 @@ function savefixer(player){
   if(player.money===undefined){
     player.money=1
   }
+  if(player.maxMoneyTime===undefined){
+    player.maxMoneyTime=player.money
+  }
   if(player.initmoney===undefined){
     player.initmoney=1
   }
-  if(player.layers.dimlayer1.amount===undefined){
-    player.layers.dimlayer1.amount=0
+
+
+  if(player.layers===undefined){
+    player.layers={
+      dimlayer1:{
+        amount: 0,
+        bought: 0,
+        cost: 1,
+        multi: 1,
+        basecost: 1,
+        costincrease: 4,
+        multiincrease: 1.5
+      },
+      dimlayer2:{
+        amount: 0,
+        bought: 0,
+        cost: 20,
+        multi: 1,
+        basecost: 20,
+        costincrease: 11,
+        multiincrease: 1.5
+      },
+      dimlayer3:{
+        amount: 0,
+        bought: 0,
+        cost: "1e6",
+        multi: 1,
+        basecost: 1e6,
+        costincrease: 32,
+        multiincrease: 1.5
+      }
+    }
+  }
+  if(player.layers.dimlayer1===undefined){
+      player.layers.dimlayer1={
+        amount: 0,
+        bought: 0,
+        cost: 1,
+        multi: 1,
+        basecost: 1,
+        costincrease: 4,
+        multiincrease: 1.5
+      }
   }
   if(player.layers.dimlayer1.bought===undefined){
     player.layers.dimlayer1.bought=0
+  }
+  if(player.layers.dimlayer1.amount===undefined){
+    player.layers.dimlayer1.amount=player.layers.dimlayer1.bought
   }
   if(player.layers.dimlayer1.cost===undefined){
     player.layers.dimlayer1.cost=1
@@ -70,20 +120,32 @@ function savefixer(player){
   if(player.layers.dimlayer1.multiincrease===undefined){
     player.layers.dimlayer1.multiincrease=1.5
   }
-  if(player.layers.dimlayer2.amount===undefined){
-    player.layers.dimlayer2.amount=0
+
+  if(player.layers.dimlayer2===undefined){
+      player.layers.dimlayer2={
+        amount: 0,
+        bought: 0,
+        cost: 20,
+        multi: 1,
+        basecost: 20,
+        costincrease: 11,
+        multiincrease: 1.5
+      }
   }
   if(player.layers.dimlayer2.bought===undefined){
     player.layers.dimlayer2.bought=0
   }
+  if(player.layers.dimlayer2.amount===undefined){
+    player.layers.dimlayer2.amount=player.layers.dimlayer2.bought
+  }
   if(player.layers.dimlayer2.cost===undefined){
-    player.layers.dimlayer2.cost=400
+    player.layers.dimlayer2.cost=20
   }
   if(player.layers.dimlayer2.multi===undefined){
     player.layers.dimlayer2.multi=1
   }
   if(player.layers.dimlayer2.basecost===undefined){
-    player.layers.dimlayer2.basecost=400
+    player.layers.dimlayer2.basecost=20
   }
   if(player.layers.dimlayer2.costincrease===undefined){
     player.layers.dimlayer2.costincrease=11
@@ -91,20 +153,32 @@ function savefixer(player){
   if(player.layers.dimlayer2.multiincrease===undefined){
     player.layers.dimlayer2.multiincrease=1.5
   }
-  if(player.layers.dimlayer3.amount===undefined){
-    player.layers.dimlayer3.amount=0
+
+  if(player.layers.dimlayer3===undefined){
+      player.layers.dimlayer3={
+        amount: 0,
+        bought: 0,
+        cost: 1e6,
+        multi: 1,
+        basecost: 1,
+        costincrease: 32,
+        multiincrease: 1.5
+      }
   }
   if(player.layers.dimlayer3.bought===undefined){
     player.layers.dimlayer3.bought=0
   }
+  if(player.layers.dimlayer3.amount===undefined){
+    player.layers.dimlayer3.amount=player.layers.dimlayer1.bought
+  }
   if(player.layers.dimlayer3.cost===undefined){
-    player.layers.dimlayer3.cost="1e7"
+    player.layers.dimlayer3.cost="1e6"
   }
   if(player.layers.dimlayer3.multi===undefined){
     player.layers.dimlayer3.multi=1
   }
   if(player.layers.dimlayer3.basecost===undefined){
-    player.layers.dimlayer3.basecost="1e7"
+    player.layers.dimlayer3.basecost="1e6"
   }
   if(player.layers.dimlayer3.costincrease===undefined){
     player.layers.dimlayer3.costincrease=32
@@ -112,6 +186,8 @@ function savefixer(player){
   if(player.layers.dimlayer3.multiincrease===undefined){
     player.layers.dimlayer3.multiincrease=1.5
   }
+
+
   if(player.expansions===undefined){
     player.expansions=0
   }
@@ -149,12 +225,24 @@ function savefixer(player){
                   [null,0,0,0],
                   [null,0,0,0]]
   }
+  if(player.unlocks===undefined){
+    player.unlocks={
+      TimeUpgrades: false
+    }
+  }
+  if(player.unlocks.TimeUpgrades===undefined){
+    player.unlocks.TimeUpgrades===false
+  }
+  if(player.versionNo===undefined){
+    player.versionNo===[1,0,2]
+  }
 }
 
 
 
 function convertsavetodecimal(player){
   player.money = new Decimal(player.money),
+  player.maxMoneyTime = new Decimal(player.maxMoneyTime),
   player.initmoney = new Decimal(player.initmoney),
 
   //layer 1
@@ -195,10 +283,27 @@ function convertsavetodecimal(player){
   player.updaterate = Number(player.updaterate),
   player.currentnotation = Number(player.currentnotation)
   //player.autosave (no need conversion)
+  //unlocks (no need conversion)
+}
+
+function unlockfixer(player){
+  if(player.timeamount.gt(0)||player.timeprestigeamount.gt(0)){
+    player.unlocks.TimeUpgrades = true
+  }
+}
+
+//make changes due to version differenece and because i forgot to include them in v1.0.0
+function versionfixer(player){
+  if(player.layers["dimlayer2"].basecost.eq(400)){
+    player.layers["dimlayer2"].basecost==new Decimal(20)
+  }
+  if(player.layers["dimlayer3"].basecost.eq(1e7)){
+    player.layers["dimlayer3"].basecost=new Decimal("1e6")
+  }
 }
 
 
-// load ur save
+// load ur save lmao
 autoloadfile();
 
 function SaveLoadAnimationTimer(){
@@ -230,6 +335,7 @@ function hardreset(){
   if (HARDRESETCONFIRMATION == "RESET THE GAME"){
     player = {
         money: new Decimal(1),
+        maxMoneyTime: new Decimal(1),
         initmoney: new Decimal(1),
         layers:{
           dimlayer1:{
@@ -241,21 +347,22 @@ function hardreset(){
             costincrease: new Decimal(4),
             multiincrease: new Decimal(1.5)
           },
+          multi: new Decimal(1),
           dimlayer2:{
             amount: new Decimal(0),
             bought: new Decimal(0),
-            cost: new Decimal(400),
+            cost: new Decimal(20),
             multi: new Decimal(1),
-            basecost: new Decimal(400),
+            basecost: new Decimal(20),
             costincrease: new Decimal(11),
             multiincrease: new Decimal(1.5)
           },
           dimlayer3:{
             amount: new Decimal(0),
             bought: new Decimal(0),
-            cost: new Decimal(1e7),
+            cost: new Decimal(1e6),
             multi: new Decimal(1),
-            basecost: new Decimal(1e7),
+            basecost: new Decimal(1e6),
             costincrease: new Decimal(32),
             multiincrease: new Decimal(1.5)
           }
@@ -275,9 +382,14 @@ function hardreset(){
                     ],
       updaterate: 50,
       currentnotation: 0,
-      autosave: true
+      autosave: true,
+      unlocks:{
+          TimeUpgrades:false
+        },
+      versionNo:[1,0,2]
     };
     manualsave()
+    UIdefault()
   }
 }
 
@@ -299,18 +411,31 @@ function exportsave(){
    }
 }
 
-function importsave(){
-  var save = prompt("Import your save.")
+function validSaveString(save){
   if (save == null || save == "") {
-    alert("Invalid save!")
+    return false
   } else {
     try{
-      player = JSON.parse(window.atob(save))
-      savefixer(player);
-      convertsavetodecimal(player);
+      JSON.parse(window.atob(save))
+      return true
     } catch (error){
-      alert("Invalid save!")
+      return false
     }
+  }
+}
+
+function importsave(){
+  let save = prompt("Import your save.")
+  if (validSaveString(save)) {
+    player = JSON.parse(window.atob(save))
+    savefixer(player)
+    convertsavetodecimal(player);
+    unlockfixer(player);
+    versionfixer(player);
+    UIdefault()
+  }
+  else {
+    alert("Invalid save!")
   }
 }
 

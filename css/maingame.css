@@ -14,7 +14,8 @@ button{
   transition-duration: 0.3s;
 }
 button:hover{
-  background-color: #aaaaaa
+  background-color: #aaaaaa;
+  cursor: pointer
 }
 
 
@@ -80,6 +81,7 @@ button:hover{
 }
 .tabs .layers .leftpart .dimlayers:hover, .expansionprestige:hover, .timeprestige:hover{
   background-color: #dddddd;
+  cursor: pointer;
 }
 #dimlayer2, #dimlayer3, #expansion, #buymax, #autobuymax, #autoexpansion, #timeprestige{
   display: none;
@@ -114,6 +116,7 @@ button:hover{
 }
 .TimeUpgrades:hover{
   background-color: #dddddd;
+  cursor: pointer;
 }
 
 

@@ -58,7 +58,7 @@
                 <span id="dimlayer2bought">(0)</span>
               </div>
               <div class="right">
-                <span class="layercosts" id="dimlayer2cost">Cost: 400</span>
+                <span class="layercosts" id="dimlayer2cost">Cost: 20</span>
               </div>
             </div>
             <div class="dimlayers" id="dimlayer3">
@@ -176,7 +176,7 @@
                       <span id="TimeUpgrade23Desc">1.5x extra multiplier to Expansion effect</span>
                     </div>
                     <div class="right">
-                      <span id="TimeUpgrade23Cost">Cost: 10 Time</span>
+                      <span id="TimeUpgrade23Cost">Cost: 15 Time</span>
                     </div>
                   </div>
                 </div>
@@ -259,6 +259,7 @@
             Autosave:<br>
             <span id="currentautosave">On</span>
           </button>
+          <i style="color: grey">Game autosaves every 30s</i>
           <br>
           <br>
           <button class="optionsbutton" id="optionsbutton.manualsave">
@@ -280,23 +281,29 @@
           <button class="optionsbutton" id="optionsbutton.hardreset">
             HARD RESET
           </button>
-          <br>
-          <br>
           <div id="exportfailsave">
             Save: <input type="text" id="exportfailsavefield"></input>
           </div>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <span style="color: grey">Spatial layering by Buck (Buck4437)</span><br>
+          <span style="color: grey">Special thanks to AD discord :)</span>
         </div>
       </div>
       <div class="footer">
         <a target="_blank" rel="noopener noreferrer" href="changelog.html">Changelog</a>
-        <span> | </span>
-        <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/MMdeS3U">Discord</a>
       </div>
     </div>
   </body>
   <script type="text/javascript" src="js/libraries/jquery-3.4.1.js"></script>
   <script type="text/javascript" src="js/libraries/break_infinity.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@antimatter-dimensions/notations"></script>
+  <script type="text/javascript" src="js/main/UI.js"></script>
   <script type="text/javascript" src="js/main/maingame.js"></script>
+  <script type="text/javascript" src="js/main/TimePrestige.js"></script>
+  <script type="text/javascript" src="js/main/variables.js"></script>
   <script type="text/javascript" src="js/main/saveloadresetfile.js"></script>
 </html>
