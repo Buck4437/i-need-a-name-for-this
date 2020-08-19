@@ -8,7 +8,7 @@ function autosave(){
   savetimer -= player.updaterate / 1000
   if (savetimer <= 0){
     if(player.autosave){
-      localStorage.setItem('player', JSON.stringify(player))
+      localStorage.setItem('spatialLayeringSave', JSON.stringify(player))
       savetimer = 30;
       SaveLoadAnimCountdown = 2;
       SaveLoadAnimActivated = true;
@@ -20,7 +20,7 @@ function autosave(){
 
 //forced autosave
 function manualsave(){
-  localStorage.setItem('player', JSON.stringify(player))
+  localStorage.setItem('spatialLayeringSave', JSON.stringify(player))
   savetimer = 30;
   SaveLoadAnimCountdown = 2;
   SaveLoadAnimActivated = true;
@@ -32,8 +32,8 @@ function manualsave(){
 
 //autoload
 function autoloadfile(){
-  if(localStorage.getItem('player')){
-    player = JSON.parse(localStorage.getItem('player'))
+  if(localStorage.getItem('spatialLayeringSave')){
+    player = JSON.parse(localStorage.getItem('spatialLayeringSave'))
     savefixer(player);
     convertsavetodecimal(player);
     unlockfixer(player);
